@@ -33,8 +33,8 @@
 
       <div class="searchArea">
         <form action="###" class="searchForm">
-          <input type="text" id="autocomplete" class="input-error input-xxlarge" />
-          <button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+          <input type="text" id="autocomplete" class="input-error input-xxlarge"  v-model="keyword"/>
+          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="search">搜索</button>
         </form>
       </div>
     </div>
@@ -44,6 +44,43 @@
 <script>
   export default {
     name: 'Header',
+
+    data () {
+      return {
+        keyword: ''
+      }
+    },
+
+    methods: {
+      search () {
+        const {keyword} = this
+        // 编程式路由跳转/导航
+        // push('')字符串语法
+        // this.$router.push(`/search/${keyword}?keyword2=${keyword.toUpperCase()}`)
+        
+        // push({})对象语法: 在开发中用得比较多
+        const location = {
+          name: 'search'
+        }
+        // 只有当keyword有值, 才去指定params
+        if (keyword) {
+          location.params = {keyword}
+          location.query = {keyword2: keyword.toUpperCase()}
+        }
+
+        // this.$router.push(location)  // 重复跳转招聘错误
+
+        // 使用的是vue-router3.1.0的语法(内部不会抛出错误的promise)
+        /* this.$router.push(location, () => {
+          console.log('跳转成功的回调')
+        }) */
+       
+        // 使用的是vue-router新的语法, 返回的是promise
+        this.$router.push(location).catch(() => {
+          // console.log('出错了')
+        })
+      }
+    }
   }
 </script>
 

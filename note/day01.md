@@ -83,6 +83,32 @@
 		5). 组件中路由相关的2个对象 (面试问题)
 				$router: 路由器对象, 包含一些用于路由跳转的方法: push()/replace()/back()
 				$route: 当前路由信息对象, 包含当前路由相关数据的对象: path/name/query/params/meta
+## Header组件
+    路由跳转/导航的2种方式
+        1. 声明式: <router-link to="/xxx"> 
+        2. 编程式跳转: 点击监听 + router.push()/replace()
+    路由跳转参数问题:
+        /search/aa?categoryName=phone&category1Id=2
+        1). 2种参数
+            params参数: aa    注册路由时一定要带 ':'
+            query参数: categoryName=phone&category1Id=2
+        2). push(location)的2种语法
+            字符串: push(path) // path可以带参数(params或者query)数据
+            对象: push({}) // 也可以带参数
+        3). push({}) 携带参数的问题:
+            一旦有params参数, 必须有name配置, query参数没有此限制
+            this.$router.push({
+                name: 'search', 
+                // path: '/search/:keyword',
+                params: {keyword},
+                query: {keyword2: keyword.toUpperCase()}
+            })
+        4). 如何实现params参数可传可不传?
+            1. 配置路由路径的params部分时用?: path: '/search/:keyword?'
+            2. 只有params参数有值时, 才指定params配置(不要携带一个值为空串的params参数)
+        5). 当编程式跳转到当前路由且参数数据不变, 就会出警告错误:
+            错误: Avoided redundant navigation to current location: "/search/bb?keyword2=BB"
+
 
 ## Footer组件
     问题: 当请求登陆/注册路由时, 隐藏Footer?

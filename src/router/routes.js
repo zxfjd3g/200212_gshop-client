@@ -13,7 +13,8 @@ export default [
     component: Home
   },
   {
-    path: '/search',
+    name: 'search', // 一旦有params参数, 想用push()的对象语法, 必须有name配置
+    path: '/search/:keyword?',  // 带:的对应的部分就是params参数
     component: Search
   },
   {

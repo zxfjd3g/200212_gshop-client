@@ -107,7 +107,14 @@
             1. 配置路由路径的params部分时用?: path: '/search/:keyword?'
             2. 只有params参数有值时, 才指定params配置(不要携带一个值为空串的params参数)
         5). 当编程式跳转到当前路由且参数数据不变, 就会出警告错误:
-            错误: Avoided redundant navigation to current location: "/search/bb?keyword2=BB"
+            错误: 
+                Avoided redundant navigation to current location  ==> 重复跳转路由
+            原因: 
+                vue-router3.1.0之后, 引入了push()的promise的语法, 如果没有通过参数指定回调函数就返回一个promise来指定成功/失败的回调, 且内部会判断如果要跳转的路径和参数都没有变化, 会抛出一个失败的promise
+            解决:
+                办法1: 在每次push时指定回调函数或catch错误
+                办法2: 重写VueRouter原型上的push方法
+    
 
 
 ## Footer组件

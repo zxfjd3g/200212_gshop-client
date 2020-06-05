@@ -62,10 +62,6 @@
 4). 将dev分支合并到master
     git checkout master
     git merge dev
-
-## 做的事件比较复杂的原因?
-		1). 逻辑性比强(情况比较多) ==> 分析清楚所有情况分别处理
-		2). 流程比较长(流程操作很多)  ==> 整体少量大的流程步骤在心里
 	
 ## 使用脚手架创建项目并运行
     1). 使用vue-cli3/4
@@ -82,9 +78,18 @@
 				上: Header
 				中: router-view
 				下: Footer
-		3). 定义一级路由组件: Home/Search/Register/Login
+		3). 定义一级路由组件: Home/Search/Register/Login (要有基本结构)
 		4). 创建路由器, 配置路由, 配置路由器
-
 		5). 组件中路由相关的2个对象 (面试问题)
 				$router: 路由器对象, 包含一些用于路由跳转的方法: push()/replace()/back()
 				$route: 当前路由信息对象, 包含当前路由相关数据的对象: path/name/query/params/meta
+
+## Footer组件
+    问题: 当请求登陆/注册路由时, 隐藏Footer?
+    解决: 利用meta来保存标识数据
+    编码:
+        给Login和Register的路由配置中添加meta配置
+            meta: {
+                isHideFooter: true
+            }
+        在App中读取这个配置数据, 来决定Footer要不要显示

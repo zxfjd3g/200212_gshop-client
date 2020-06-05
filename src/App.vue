@@ -5,7 +5,7 @@
     <!-- 一级路由组件显示区域 -->
     <router-view/>
 
-    <Footer></Footer>
+    <Footer v-if="!$route.meta.isHideFooter"></Footer>
   </div>
 </template>
 

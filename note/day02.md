@@ -79,6 +79,17 @@
             如果添加新的数据管理, 需要修改现在文件(不断向其添加内容) 
         vuex多模块编程: 对各个功能模块的数据分别进行管理, 这样更加具有扩展性
         什么时候需要用vuex多模块编程?  需要vuex管理的数据比较多时使用
+    多模块编程的总state结构:
+        {
+            home:{
+                categoryList: [], // 分类列表
+                xxx: {},
+                yyy: 'atguigu'
+            }
+            user: {
+                userInfo: {}
+            }
+        }
     针对三级分类使用vuex管理
         api: reqCategoryList
         vuex: home.js中编写

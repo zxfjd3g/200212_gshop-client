@@ -23,7 +23,8 @@ const instance = axios.create({
 })
 
 // 注册请求拦截器
-axios.interceptors.request.use(config => { // 在真正发送请求前执行
+// axios.interceptors.request.use(config => { // 不正确
+instance.interceptors.request.use(config => { // 在真正发送请求前执行
   /* 2.1 在请求拦截器回调中执行: NProgress.start() */
   NProgress.start()
 
@@ -31,7 +32,7 @@ axios.interceptors.request.use(config => { // 在真正发送请求前执行
 })
 
 // 注册响应拦截器
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   response => { // 请求成功后的回调
     /* 2.2 隐藏: 在请求完成后的成功或失败回调中执行 */
     NProgress.done()

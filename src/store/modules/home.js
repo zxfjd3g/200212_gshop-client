@@ -32,9 +32,10 @@ export default {
     async getCategoryList ({commit}) {
       // 调用接口请求函数发异步ajax请求
       const result = await reqCategoryList()
+      console.log('result', result)
       // 请求成功后, 取出数据, 提交给mutation保存
       if (result.code===200) {
-        const categoryList = result.data
+        const categoryList = result.data.filter((item, index) => index<15)
         commit('RECEIVE_CATEGORY_LIST', categoryList)
       }
     }

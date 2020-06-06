@@ -7,7 +7,8 @@
           <p>尚品汇欢迎您！</p>
           <p>
             <span>请</span>
-            <router-link to="/login">登录</router-link>
+            <!-- <router-link to="/login">登录</router-link> -->
+            <router-link :to="{path: '/login'}">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
         </div>
@@ -76,9 +77,13 @@
         }) */
        
         // 使用的是vue-router新的语法, 返回的是promise
-        this.$router.push(location).catch(() => {
+        /* this.$router.push(location).catch(() => {
           // console.log('出错了')
-        })
+        }) */
+
+        this.$router.push(location)
+        // this.$router.push(location, ()=> {})
+        // this.$router.replace(location, ()=> {})
       }
     }
   }

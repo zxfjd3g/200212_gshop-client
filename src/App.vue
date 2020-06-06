@@ -12,15 +12,15 @@
 <script>
 import Header from './components/Header'
 import Footer from './components/Footer'
-import {reqCategorys} from './api'
+// import {reqCategoryList} from './api'
 
 export default {
   name: 'App',
 
   async mounted () {
     // 测试调用接口请求函数获取数据
-    const result = await reqCategorys()
-    console.log('result', result)
+    // const result = await reqCategoryList()
+    // console.log('result', result)
   },
 
   // 注册组件(局部, 当前组件可用)

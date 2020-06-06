@@ -64,3 +64,30 @@
                   }
                 },
             baseURL: baseURL: '/api'
+
+## 使用vuex管理组件状态数据
+    vuex用来做什么?
+        vuex用来管理多个组件共享的状态数据
+        从后台动态获取数据
+    vuex的基本使用
+        store相关: index / state / mutations / actions / getters 
+        注册store: vm中注册store  ==> 组件中通过$store得到store对象
+        组件:  通过$store来读取或更新vuex管理的state数据
+              也可以通过mapState() / mapGetters() / mapMutations() / mapActions()
+    vuex的多模块编程的必要性
+        vuex单模块问题: 需要的管理状态数据比较多, 那对应的mutations/actions模块就会变得比较大
+            如果添加新的数据管理, 需要修改现在文件(不断向其添加内容) 
+        vuex多模块编程: 对各个功能模块的数据分别进行管理, 这样更加具有扩展性
+        什么时候需要用vuex多模块编程?  需要vuex管理的数据比较多时使用
+    针对三级分类使用vuex管理
+        api: reqCategoryList
+        vuex: home.js中编写
+            异步action: 
+                调用接口请求函数发异步ajax请求
+                请求成功后, 取出数据, 提交给mutation保存
+            mutation: 
+                根据接收的数据参数更新当前模块的state中的状态数据
+            state: {categoryList, ...}
+        组件:
+            分发异步action请求获取数据到state
+            读取vuex的state中的数据到组件的计算属性

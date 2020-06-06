@@ -1,5 +1,7 @@
 <template>
   <div>
+    <TypeNav />
+    
     <h2>Search</h2>
 
     <h3>keyword: {{$route.params.keyword}}</h3>

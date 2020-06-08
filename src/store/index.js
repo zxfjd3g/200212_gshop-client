@@ -15,7 +15,11 @@ const mutations = {
 
   }
 }
-const actions = {}
+const actions = {
+  xxx ({commit, state}) {
+    
+  }
+}
 const getters = {}
 
 // 向外暴露store对象

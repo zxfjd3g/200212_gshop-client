@@ -1,44 +1,46 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <div @mouseleave="hideSubCategorys" @mouseenter="currentIndex=-1">
+      <div @mouseleave="hideSubCategorys" @mouseenter="showFirstCategorys">
         <h2 class="all">全部商品分类</h2>
-        <div class="sort">
-          <div class="all-sort-list2" @click="toSearch2">
+        <transition name="move">
+          <div class="sort" v-show="isShowFirst">
+            <div class="all-sort-list2" @click="toSearch2">
 
-            <div class="item" :class="{item_on: index===currentIndex}" v-for="(c1, index) in categoryList" 
-              :key="c1.categoryId" @mouseenter="showSubScategorys(index)">
-              <h3>
-                <!-- <router-link :to="`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`">{{c1.categoryName}}</router-link> -->
-                <!-- <a href="javascript:" @click="toSearch({categoryName: c1.categoryName, category1Id: c1.categoryId})">{{c1.categoryName}}</a> -->
-                <a href="javascript:" :data-categoryName="c1.categoryName" :data-category1Id="c1.categoryId">{{c1.categoryName}}</a>
-              </h3>
-              <div class="item-list clearfix">
-                <div class="subitem">
-                  <dl class="fore" v-for="(c2, index) in c1.categoryChild" :key="c2.categoryId">
-                    <dt>
-                      <!-- <router-link :to="`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`">{{c2.categoryName}}</router-link> -->
-                      <!-- <a href="javascript:" @click="toSearch({categoryName: c2.categoryName, category2Id: c2.categoryId})">{{c2.categoryName}}</a> -->
-                      <a href="javascript:" :data-categoryName="c2.categoryName" :data-category2Id="c2.categoryId">{{c2.categoryName}}</a>
-                    </dt>
+              <div class="item" :class="{item_on: index===currentIndex}" v-for="(c1, index) in categoryList" 
+                :key="c1.categoryId" @mouseenter="showSubScategorys(index)">
+                <h3>
+                  <!-- <router-link :to="`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`">{{c1.categoryName}}</router-link> -->
+                  <!-- <a href="javascript:" @click="toSearch({categoryName: c1.categoryName, category1Id: c1.categoryId})">{{c1.categoryName}}</a> -->
+                  <a href="javascript:" :data-categoryName="c1.categoryName" :data-category1Id="c1.categoryId">{{c1.categoryName}}</a>
+                </h3>
+                <div class="item-list clearfix">
+                  <div class="subitem">
+                    <dl class="fore" v-for="(c2, index) in c1.categoryChild" :key="c2.categoryId">
+                      <dt>
+                        <!-- <router-link :to="`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`">{{c2.categoryName}}</router-link> -->
+                        <!-- <a href="javascript:" @click="toSearch({categoryName: c2.categoryName, category2Id: c2.categoryId})">{{c2.categoryName}}</a> -->
+                        <a href="javascript:" :data-categoryName="c2.categoryName" :data-category2Id="c2.categoryId">{{c2.categoryName}}</a>
+                      </dt>
 
-                    <dd>
-                      <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
-                        <!-- <router-link :to="`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`">{{c3.categoryName}}</router-link> -->
-                        <!-- <a href="javascript:" 
-                          @click="toSearch({categoryName: c3.categoryName, category3Id: c3.categoryId})">
-                          {{c3.categoryName}}
-                        </a> -->
-                        <a href="javascript:" :data-categoryName="c3.categoryName" :data-category3Id="c3.categoryId">{{c3.categoryName}}</a>
-                      </em>
-                    </dd>
-                  </dl>
+                      <dd>
+                        <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
+                          <!-- <router-link :to="`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`">{{c3.categoryName}}</router-link> -->
+                          <!-- <a href="javascript:" 
+                            @click="toSearch({categoryName: c3.categoryName, category3Id: c3.categoryId})">
+                            {{c3.categoryName}}
+                          </a> -->
+                          <a href="javascript:" :data-categoryName="c3.categoryName" :data-category3Id="c3.categoryId">{{c3.categoryName}}</a>
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
-        </div>
+        </transition>
       </div>
 
       <nav class="nav">
@@ -65,6 +67,7 @@
     data () {
       return {
         currentIndex: -2, // 标识哪个下标的分类项需要显示子分类列表 
+        isShowFirst: this.$route.path==='/'
       }
     },
 
@@ -99,10 +102,24 @@
       ...mapActions(['getCategoryList']),  // getCategoryList () {this.$store.dispatch('getCategoryList')}
 
       /* 
+      显示一级分类列表
+      */
+      showFirstCategorys () {
+        // 显示一级分类列表
+        this.isShowFirst = true
+        // 让子分类列表可以改变为特定下标
+        this.currentIndex=-1
+      },
+
+      /* 
       隐藏子分类列表
       */
       hideSubCategorys () {
         this.currentIndex = -2
+        // 如果当前不是首页, 需要隐藏一级列表
+        if (this.$route.path!=='/') {
+          this.isShowFirst = false
+        }
       },
 
       /* 
@@ -174,6 +191,9 @@
 
         // 跳转到Search
         this.$router.push(location)
+
+        // 自动隐藏列表
+        this.hideSubCategorys()
       }
     }
   }
@@ -219,6 +239,15 @@
         position: absolute;
         background: #fafafa;
         z-index: 999;
+        // 指定显示过程的transtion
+        &.move-enter-active {
+          transition: all .3s;
+        }
+        // 指定隐藏时的样式
+        &.move-enter, &.move-leave-to {
+          opacity: 0;
+          height: 0;
+        }
 
         .all-sort-list2 {
           .item {

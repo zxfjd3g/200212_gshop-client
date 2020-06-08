@@ -46,9 +46,17 @@
 		给a标签指定data自定义属性: <a :data-categoryName="c1.categoryName">
 		在事件回调函数读取data自定义属性值: const {categoryname} = event.target.dataset
 
-
 ## 控制一级列表的显示与隐藏
+	设计状态数据: isShowFirst
+	初始值: 只有当是home路由时显示, 其它是隐藏
+	什么时候更新为true: 当光标进入包含大标题和分类的div
+	什么时候更新为false: 移出大的div / 点击了分类项后
+
 ## 一级列表显示隐藏的过渡效果
+	给显示隐藏的元素包上一个<transition name="xxx">
+	在显示/隐藏过程的类名下指定: transition样式
+	在隐藏时的类名下指定: 隐藏的样式
+
 ## 优化请求执行的位置, 减少请求次数
 ## 合并分类query参数与搜索的关键字params参数
 

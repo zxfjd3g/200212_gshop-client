@@ -1,7 +1,37 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <div @mouseleave="hideSubCategorys">
+        <h2 class="all">全部商品分类</h2>
+        <div class="sort">
+          <div class="all-sort-list2">
+
+            <div class="item" :class="{item_on: index===currentIndex}" v-for="(c1, index) in categoryList" 
+              :key="c1.categoryId" @mouseenter="showSubScategorys(index)">
+              <h3>
+                <a href="javascript:">{{c1.categoryName}}</a>
+              </h3>
+              <div class="item-list clearfix">
+                <div class="subitem">
+                  <dl class="fore" v-for="(c2, index) in c1.categoryChild" :key="c2.categoryId">
+                    <dt>
+                      <a href="javascript:">{{c2.categoryName}}</a>
+                    </dt>
+
+                    <dd>
+                      <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
+                        <a href="javascript:">{{c3.categoryName}}</a>
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -12,40 +42,22 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-        <div class="all-sort-list2">
-
-          <div class="item" v-for="(c1, index) in categoryList" :key="c1.categoryId">
-            <h3>
-              <a href="javascript:">{{c1.categoryName}}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div class="subitem">
-                <dl class="fore" v-for="(c2, index) in c1.categoryChild" :key="c2.categoryId">
-                  <dt>
-                    <a href="javascript:">{{c2.categoryName}}</a>
-                  </dt>
-
-                  <dd>
-                    <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
-                      <a href="javascript:">{{c3.categoryName}}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
+  // import _ from 'lodash'  // 引入整个lodash为, 还没有使用的工具函数也被打包了  4M
+  import throttle from 'lodash/throttle' // 只引入需要的工具函数, 只有引入的被打包了 ==> 打包文件变小了1.4M
   import {mapState, mapActions} from 'vuex'
   export default {
     name: 'TypeNav',
+
+    data () {
+      return {
+        currentIndex: -1, // 标识哪个下标的分类项需要显示子分类列表 
+      }
+    },
 
     computed: {
       /* 
@@ -75,7 +87,22 @@
     },
 
     methods: {
-      ...mapActions(['getCategoryList'])  // getCategoryList () {this.$store.dispatch('getCategoryList')}
+      ...mapActions(['getCategoryList']),  // getCategoryList () {this.$store.dispatch('getCategoryList')}
+
+      /* 
+      隐藏子分类列表
+      */
+      hideSubCategorys () {
+        this.currentIndex = -1
+      },
+
+      /* 
+      显示指定下标对应的子分类列表
+      */
+      showSubScategorys: _.throttle(function (index) {
+        console.log('showSubScategorys', index)
+        this.currentIndex = index
+      }, 200)
     }
   }
 </script>
@@ -190,7 +217,7 @@
               }
             }
 
-            &:hover {
+            &.item_on {
               background: #ccc;
               .item-list {
                 display: block;

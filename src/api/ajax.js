@@ -1,6 +1,6 @@
 /* 
 axios的二次封装(axios本身就是对XHR原生ajax的封装)     面试必说
-1. 配置通用的基础路径和超时
+1. 配置通用的基础路径和超时
     const intance = axios.create({baseURL, timeout})  // intance是一个能发ajax请求的函数
     向外暴露的必须是instance
 2. 显示请求进度条

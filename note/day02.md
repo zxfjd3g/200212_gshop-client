@@ -100,5 +100,6 @@
                 根据接收的数据参数更新当前模块的state中的状态数据
             state: {categoryList, ...}
         组件:
-            分发异步action请求获取数据到state
-            读取vuex的state中的数据到组件的计算属性
+            分发异步action请求获取数据到state: 数据从接口===> vuex的state
+            读取vuex的state中的数据到组件的计算属性: 数据从vuex的state ===> 组件的计算属性
+            在模板中动态显示: 插值 / 指令

@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "name": "Tom",
+    "age": 21,
+    "address": {
+  
+    },
+    "likes": ["foot", "basket"]
+  },
+
+  {
+    "id": 2,
+    "name": "Tom2",
+    "age": 21,
+    "address": {
+  
+    },
+    "likes": ["foot", "basket"]
+  },
+
+  {
+    "id": 5,
+    "name": "Tom5",
+    "age": 21,
+    "address": {
+  
+    },
+    "likes": ["foot", "basket"]
+  }
+]

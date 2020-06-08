@@ -58,6 +58,24 @@
 	在隐藏时的类名下指定: 隐藏的样式
 
 ## 优化请求执行的位置, 减少请求次数
-## 合并分类query参数与搜索的关键字params参数
+	问题: 从首页跳转到搜索页, 还会请求三级分类列表
+	原因: 在TypeNav组件的mount()中分发给异步action请求的 ==> 每个TypeNav组件对象都会发请求
+	解决: 在App的mounted中去dispatch给异步action请求获取分类列表
 
-数据驱动: 只需要更新数据, 界面就会自动更新  vue是一个数据驱动的库
+## 合并分类query参数与搜索的关键字params参数
+	问题: 
+		当根据分类跳转search时, 丢了keyword的params参数
+		当根据keyword跳转search时, 丢了categoryName/cateory1Id/cateory2Id/cateory3Id的query参数
+	解决:
+		当根据分类跳转search时, 同时携带上keyword的params参数
+		当根据keyword跳转search时,携带上categoryName/cateory1Id/cateory2Id/cateory3Id的query参数
+
+## mock数据接口
+	问题: 当前首页只有分类的接口写好, 其它数据的接口还没有写好
+	解决: 前端工程师自己mock/模拟接口数据
+
+## 理解JSON数据
+	a.结构: 名称, 数据类型  ==> 用于读取数据值
+	b.value: 会显示到界面上
+	c.真实接口返回的数据与mock的数据的关系: value可以变, 但结构不能变
+	注意: 如果有变化 ==> 需要修改模板中读取显示的代码  ==> 真实情况是多少会有些不同, 变化越小需要修改的代码就越少

@@ -95,7 +95,7 @@
     mounted () {
       // 通过store对象的dispatch()来触发异步action getCategoryList执行请求获取数据
       // this.$store.dispatch('getCategoryList')  // 数据从接口中转移到vuex的state中
-      this.getCategoryList()
+      // this.getCategoryList()
     },
 
     methods: {
@@ -187,6 +187,12 @@
         const location = {
           name: 'search',
           query
+        }
+
+        // 取出当前params中的keyword, 如果有值, 携带上
+        const keyword = this.$route.params.keyword
+        if (keyword) {
+          location.params = {keyword}
         }
 
         // 跳转到Search

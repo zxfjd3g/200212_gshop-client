@@ -5,6 +5,7 @@
 需要掌握一个技能: 根据接口文档, 定义接口请求函数
 */
 import ajax from './ajax'
+import mockAjax from './mockAjax'
 
 /* 
 登录
@@ -31,3 +32,9 @@ export const reqCategoryList = () => ajax('/product/getBaseCategoryList')
 export function reqCategoryList () {
   return ajax('/product/getBaseCategoryList')
 } */
+
+/* 
+定义访问mock接口的接口请求函数
+*/
+export const reqBanners = () => mockAjax('/banners')
+export const reqFloors = () => mockAjax('/floors')

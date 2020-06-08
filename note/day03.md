@@ -79,3 +79,20 @@
 	b.value: 会显示到界面上
 	c.真实接口返回的数据与mock的数据的关系: value可以变, 但结构不能变
 	注意: 如果有变化 ==> 需要修改模板中读取显示的代码  ==> 真实情况是多少会有些不同, 变化越小需要修改的代码就越少
+
+## 使用mockjs来mock接口
+	下载mockjs, 引入使用
+	 mockjs: 生成随机数据，拦截 Ajax 请求, 返回生成的随机数据
+	 定义mock json数据: 使用mockjs的随机语法
+	 mockServer中: 通过Mock.mock()来定义mock接口
+	 main.js中: 引入mockServer
+	 必须写ajax请求代码访问: 
+		api/mockAjax中: 封装针对mock接口的axios封装封装
+		api/index中: 定义对应的接口请求函数
+	    组件中: 调用接口请求函数
+	注意: 浏览器并不会发对mock接口的请求
+
+## 使用vuex管理mock接口返回的banners与floors数据
+	state: banners / floors
+	mutation: RECEIVE_BANNERS() / RECEIVE_FLOORS()
+	action: getBanners() / getFloors()

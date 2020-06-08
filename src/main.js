@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import TypeNav from './components/TypeNav'
 
+import '@/mock/mockServer'  // 引入加载
+
 
 // 注册全局组件(所有组件都可以使用了)
 Vue.component('TypeNav', TypeNav)

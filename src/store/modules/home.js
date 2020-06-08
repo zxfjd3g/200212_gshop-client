@@ -1,18 +1,30 @@
 /* 
 管理首页数据的vuex子模块
 */
-import {reqCategoryList} from '@/api'
+import {reqCategoryList, reqBanners, reqFloors} from '@/api'
 
 export default {
   state: {
     categoryList: [], // 分类列表
-    xxx: {},
-    yyy: 'atguigu'
+    banners: [], // 广告轮播列表数据
+    floors: [], // 楼层列表数据
   },
   mutations: {
-    test1 (state) {// 当前state是当前的state
 
+    /* 
+    接收保存广告轮播列表的mutation
+    */
+    RECEIVE_BANNERS (state, banners) {
+      state.banners = banners
     },
+
+    /* 
+    接收保存楼层列表的mutation
+    */
+    RECEIVE_FLOORS (state, floors) {
+      state.floors = floors
+    },
+    
     /* 
     接收保存分类列表的mutation
     */
@@ -22,8 +34,27 @@ export default {
   }, // 当前子模块的mutations
 
   actions: {
-    test3 ({commit, state}) { // 当前state是当前的state
 
+    /* 
+    请求获取广告轮播列表的异步action
+    */
+    async getBanners ({commit}) {
+      const result = await reqBanners()
+      if (result.code===200) {
+        const banners = result.data
+        commit('RECEIVE_BANNERS', banners)
+      }
+    },
+
+    /* 
+    请求获取楼层列表的异步action
+    */
+    async getFloors ({commit}) {
+      const result = await reqFloors()
+      if (result.code===200) {
+        const floors = result.data
+        commit('RECEIVE_FLOORS', floors)
+      }
     },
 
     /* 

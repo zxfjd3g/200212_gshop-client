@@ -3,20 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <!-- <div class="swiper-container" id="swiper"> -->
-        <div class="swiper-container" ref="swiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="banner in banners" :key="banner.id">
-              <img :src="banner.imgUrl" />
-            </div>
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carousel :carouselList="banners" autoplay/>
       </div>
       <div class="right">
         <div class="news">
@@ -102,43 +89,16 @@
 </template>
 <script>
   import {mapState} from 'vuex'
-  import Swiper from 'swiper'
+  
   export default {
     name: 'ListContainer',
 
     computed: {
       ...mapState({
-        banners: state => state.home.banners
+        banners: state => state.home.banners  // [] ==> [...]
       })
     },
-
-    mounted () {
-
-      /* 办法一: 使用setTimeout延迟执行 */
-      setTimeout(() => { // 一定要用箭头函数
-        // 必须在轮播列表显示之后创建才有效
-        // new Swiper('.swiper-container', {
-        new Swiper(this.$refs.swiper, {
-          // direction: 'horizontal', // 水平切换, 默认就是这个值
-
-          loop: true, // 循环模式选项
-
-          autoplay: true, // 是否自动轮播
-
-          // 如果需要分页器
-          pagination: {
-            el: '.swiper-pagination',
-          },
-
-          // 如果需要前进后退按钮
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          }
-        })
-      }, 1000)
-      
-    }
+    
   }
 </script>
 

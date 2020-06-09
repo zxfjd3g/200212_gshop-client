@@ -29,4 +29,15 @@
 	原因: 创建swiper对象的时间太早(在列表显示之前)
 	解决:  在列表显示之后创建swiper对象
 		办法一: 使用setTimeout延迟执行  ==> 不合适(因为请求获取数据的时间不确定)
-		办法二: 
+		办法二: watch + nextTick()
+			watch的回调: 在数据发生改变后执行(banners有数据了)
+			nextTick(callback): 这次数据改变对应界面更新已经完成
+			
+		理解: 更新数据 / 调用监视的回调 / 更新界面 的流程
+			我们更新数据 ==> vue自动调用监视的回调(界面还没更新) ==> vue自动更新界面
+
+		理解: nextTick()
+			2个API: Vue.nextTick( callback )
+					vm.$nextTick( callback )
+			我们什么时候调用nextTick()? 在数据更新之后, 界面更新之前
+			Vue什么时候回调callback? 在界面更新后执行

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import 'swiper/css/swiper.min.css' // 如果查找不是包的主模块, 必须指定具体的路径
 import App from './App.vue'
 import router from './router'
 import store from './store'

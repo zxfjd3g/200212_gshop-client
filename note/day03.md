@@ -1,8 +1,7 @@
 ## 今日任务
 	1). TypeNav的交互(与用户)效果
 	2). mock数据接口
-	3). ListContainer组件动态显示
-	4). Floor组件动态显示
+	3). 使用vuex管理mock接口返回的banners与floors数据
 
 ## 事件控制二三级分类列表的显示与隐藏
 	设计状态数据: currentIndex: 标识哪个下标的分类项需要显示子分类列表 

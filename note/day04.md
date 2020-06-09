@@ -1,5 +1,5 @@
 ## 今日任务
-    1). 根据mock的接口实现动态ListContainer与Floor组件
+	1). 根据mock的接口实现动态ListContainer与Floor组件
 	2). 抽取一个轮播组件Carousel
 	3). Search组件
 

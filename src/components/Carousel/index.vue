@@ -29,16 +29,44 @@ export default {
   watch: {
     // 监视carouselList的回调函数 ==> 当carouselList发生改变时自动调用
     // [] ==> [...]
-    carouselList (value) {
+   /*  carouselList (value) {
       // console.log('carouselList', value)
       // 利用nexTick()延迟到界面更新之后才去创建swiper对象
       this.$nextTick(() => {
         this.initSwiper()
       })
+    }, */
+    
+    carouselList: {
+      // 监视的回调
+      handler (value) {
+        // 如果还没有数据, 直接结束
+        if (this.carouselList.length===0) return
+
+        console.log('carouselList---', value)
+        // 利用nexTick()延迟到界面更新之后才去创建swiper对象
+        this.$nextTick(() => {
+          this.initSwiper()
+        })
+      },
+      // immediate: true, // 初始显示就会调用第一次
+    }
+
+
+  },
+
+  /* 
+  在初始界面显示之后执行
+  */
+  mounted () {
+    console.log('++++', this.carouselList.length)
+    // 如果初始时已经有数据了, 就创建一个对应的swiper对象
+    if (this.carouselList.length>0) { // 已经显示了
+      this.initSwiper() // 立即创建swiper, 不需要用什么nextTick()/定时器
     }
   },
 
-  mounted () {
+  // mounted () {
 
     /* 办法一: 使用setTimeout延迟执行 */
     /* setTimeout(() => { // 一定要用箭头函数
@@ -64,7 +92,7 @@ export default {
       })
     }, 1000) */
     
-  },
+  // },
 
   methods: {
     /* 

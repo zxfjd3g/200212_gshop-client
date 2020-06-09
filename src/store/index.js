@@ -3,8 +3,10 @@ Vuex最核心的管理对象: store(仓库)
 */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import home from './modules/home'
-import user from './modules/user'
+// import home from './modules/home'
+// import user from './modules/user'
+// import search from './modules/search'
+import modules from './modules'
 
 // 声明使用vue插件
 Vue.use(Vuex)
@@ -28,10 +30,7 @@ export default new Vuex.Store({
   mutations, // 总mutations
   actions, // 总actions
   getters, // 总getters
-  modules: { // 指定vuex管理所有子模块
-    home,  // 标识名称: vuex子模块
-    user
-  }
+  modules
 })
 
 /* 

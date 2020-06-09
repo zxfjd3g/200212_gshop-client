@@ -84,3 +84,14 @@
 	<T v-if="a"> 会创建  []转换为boolean是true   只有是true才会创建, fale不创建
 	<T v-if="b"> 不会创建 undefined转换为boolean是false
 	<T v-show="b"> 会创建, 只是通过样式来隐藏组件对象对应的界面   无论是true/false都会创建
+
+## Search静态组件和动态显示
+	api: reqProductList
+	vuex: search.js---state/mutations/actions/getters
+	component: dispatch() / mapState() / 模板显示
+
+
+## 调试时查看动态数据的位置
+	vue: 组件---data/props/computed/vuex bindings
+	vuex: state/getters/mutation调用
+	network: 请求---url/method/query/params/响应体

@@ -41,3 +41,42 @@
 					vm.$nextTick( callback )
 			我们什么时候调用nextTick()? 在数据更新之后, 界面更新之前
 			Vue什么时候回调callback? 在界面更新后执行
+
+## 抽取轮播组件: Carousel
+	声明接收属性: props: carouselList /autoplay
+	模板: 根据接收的carouselList显示轮播列表
+	创建Swiper对象: watch + nextTick()
+
+## 问题: Listainer中的轮播没有问题, 但2个Floor的轮播不可以
+	原因: 
+		基础理解: 
+			给组件标签传入的属性值是undefined/空数组, 组件对象会创建
+			如果组件标签的v-for遍历的值是undefined/空数组, 组件对象不会创建
+			watch的回调默认什么时候调用: 在监视的数据发生改变时才调用, 初始显示时不调用
+		得到结果:
+			banners对应的<Carsoursel>有经历数据更新的过程 ===> 调用监视回调  ==> 创建swiper对象
+			floors对应的2个<Caroursel>没有经历数据更新的过程 ==> 没有调用监视回调  ==> 不会创建swiper对象
+		详细过程:
+			<ListContainer />
+				<Carousel :carouselList="banners"/>
+			banners的变化: 
+				[] ===> [...]
+				创建Carousel组件对象 ==> 更新组件对象 ==> 调用监视回调创建Swiper对象
+
+			<Floor v-for="floor in floors" :key="floor.id" :floor="floor"/>
+				<Carousel :carouselList="floor.carouselList"/>
+			floors的变化: 
+				[] ===> [{carouselList: []}, {carouselList: []}]
+				不创建Carousel组件对象  ==> 创建Carousel组件对象 ==> 不会调用监视的回调
+			
+	解决:
+
+
+## 组件对象是否创建相关的情况
+	a = []
+	b = undefined
+	<T :a="a">  会创建组件对象  属性值是多少完全不影响组件对象的创建
+	<T v-for="item in a"> 不会创建  只有数组中有元素时才会创建
+	<T v-if="a"> 会创建  []转换为boolean是true   只有是true才会创建, fale不创建
+	<T v-if="b"> 不会创建 undefined转换为boolean是false
+	<T v-show="b"> 会创建, 只是通过样式来隐藏组件对象对应的界面   无论是true/false都会创建

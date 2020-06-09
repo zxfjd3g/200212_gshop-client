@@ -71,6 +71,7 @@ export default {
     初始化创建swiper对象
     */
     initSwiper () {
+      console.log('创建swiper对象')
       new Swiper(this.$refs.swiper, {
         // direction: 'horizontal', // 水平切换, 默认就是这个值
 

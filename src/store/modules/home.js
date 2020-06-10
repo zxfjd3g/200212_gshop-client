@@ -1,16 +1,23 @@
 /* 
 管理首页数据的vuex子模块
 */
-import {reqCategoryList, reqBanners, reqFloors} from '@/api'
+import {reqCategoryList, reqBanners, reqFloors, reqRecommends} from '@/api'
 
 export default {
   state: {
     categoryList: [], // 分类列表
     banners: [], // 广告轮播列表数据
     floors: [], // 楼层列表数据
+    recommends: [], // 今日推荐列表
   },
   mutations: {
 
+    /* 
+    接收保存广告轮播列表的mutation
+    */
+    RECEIVE_RECOMMENDS (state, recommends) {
+      state.recommends = recommends
+    },
     /* 
     接收保存广告轮播列表的mutation
     */
@@ -34,6 +41,17 @@ export default {
   }, // 当前子模块的mutations
 
   actions: {
+
+    /* 
+    请求获取今日推荐列表的异步action
+    */
+    async getRecommends ({commit}) {
+      const result = await reqRecommends()
+      if (result.code===200) {
+        const recommends = result.data
+        commit('RECEIVE_RECOMMENDS', recommends)
+      }
+    },
 
     /* 
     请求获取广告轮播列表的异步action

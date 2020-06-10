@@ -38,6 +38,7 @@ export function reqCategoryList () {
 */
 export const reqBanners = () => mockAjax('/banners')
 export const reqFloors = () => mockAjax('/floors')
+export const reqRecommends = () => mockAjax('/recommends')
 
 /* 
 获取商品列表

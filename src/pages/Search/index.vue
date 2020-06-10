@@ -48,6 +48,7 @@
               </ul>
             </div>
           </div>
+
           <div class="goods-list">
             <ul class="yui3-g">
               <li class="yui3-u-1-5" v-for=" item in productList.goodsList" :key="item.id">
@@ -77,35 +78,14 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+
+          <Pagination 
+            :currentPage="options.pageNo"
+            :pageSize="options.pageSize"
+            :total="productList.total"
+            :showPageNo="5"
+            @currentChange="getProductList"
+          />
         </div>
       </div>
     </div>
@@ -133,7 +113,7 @@
           order: '1:desc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  "1:desc"
 
           pageNo: 1, // 页码
-          pageSize: 5, //	每页数量
+          pageSize: 2, //	每页数量
         }
       }
     },
@@ -142,6 +122,11 @@
     常用的就是在mounted()/create()发ajax请求
     */
     created () {
+      // 需要根据分类的query参数和关键字的params参数来搜索
+
+      // 1. 根据query和params参数更新options
+      this.updateOptions()
+      // 2. 发搜索请求
       this.getProductList()
     },
 
@@ -151,10 +136,47 @@
       })
     },
 
-    methods: {
-      getProductList () {
-        this.$store.dispatch('getProductList', this.options)
+    watch: {
+      // 监视路由参数的变化
+      $route(to, from) {
+        // 1. 根据query和params参数更新options
+        this.updateOptions()
+        // 2. 发搜索请求
+        this.getProductList()
       }
+    },
+
+    methods: {
+
+      /* 
+      根据query和params参数更新options
+      */
+      updateOptions () {
+        // 取出参数数据
+        const {categoryName='', category1Id='', category2Id='', category3Id=''} = this.$route.query
+        const {keyword=''} = this.$route.params
+
+        // 更新options
+        this.options = {
+          ...this.options,
+          categoryName,
+          category1Id,
+          category2Id,
+          category3Id,
+          keyword,
+        } // 同名属性覆盖, 非同名属性保留
+      },
+
+      /* 
+      获取指定页码的商品列表
+      pageNo的默认值是1
+      */
+      getProductList (pageNo=1) {
+        // 更新页码数据
+        this.options.pageNo = pageNo
+        // 分发异步action, 请求获取数据显示
+        this.$store.dispatch('getProductList', this.options)
+      },
     },
 
     components: {

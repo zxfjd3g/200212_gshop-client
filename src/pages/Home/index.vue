@@ -34,6 +34,7 @@ export default {
     // 分发给异步action请求获取楼层列表数据
     this.$store.dispatch('getFloors')
     this.$store.dispatch('getBanners')
+    this.$store.dispatch('getRecommends')
   },
 
   // 局部注册组件 (就当前组件使用)

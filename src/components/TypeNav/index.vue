@@ -196,7 +196,13 @@
         }
 
         // 跳转到Search
-        this.$router.push(location)
+        // 如果当前没有在search, 用push, 否则用replace
+        // if (this.$route.name!=='search') {
+        if (this.$route.path.indexOf('/search')!==0) {  // 可能是/search/xxx
+          this.$router.push(location)
+        } else {
+          this.$router.replace(location)
+        }
 
         // 自动隐藏列表
         this.hideSubCategorys()

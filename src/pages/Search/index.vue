@@ -11,10 +11,12 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="options.categoryName">
+              {{options.categoryName}}<i @click="removeCategory">×</i>
+            </li>
+            <li class="with-x" v-if="options.keyword">
+              {{options.keyword}}<i @click="removeKeyword">×</i>
+            </li>
           </ul>
         </div>
 
@@ -147,6 +149,39 @@
     },
 
     methods: {
+
+      /* 
+      删除分类条件
+      */
+      removeCategory () {
+        // 重置相关数据
+        this.options.categoryName = ''
+        this.options.category1Id = ''
+        this.options.category2Id = ''
+        this.options.category3Id = ''
+
+        // 重新请求列表数据   这样不好
+        // this.getProductList()
+        // 重新跳转到当前Search, 干掉分类的query参数
+        // this.$router.push({name: 'search', params: this.$route.params})
+        this.$router.replace({name: 'search', params: this.$route.params})
+      },
+
+      /* 
+      删除关键字条件
+      */
+      removeKeyword () {
+        // 重置相关数据
+        this.options.keyword = ''
+        // 重新请求列表数据  这样不好
+        // this.getProductList()
+        // 重新跳转到当前Search, 干掉关键字的params参数
+        // this.$router.push({name: 'search', query: this.$route.query})
+        this.$router.replace({name: 'search', query: this.$route.query})
+
+        // 在Search中: 通过事件总线对象分发自定义事件
+        this.$bus.$emit('removeKeyword')
+      },
 
       /* 
       根据query和params参数更新options

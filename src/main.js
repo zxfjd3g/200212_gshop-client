@@ -15,11 +15,18 @@ Vue.component('TypeNav', TypeNav)
 Vue.component('Carousel', Carousel)
 Vue.component('Pagination', Pagination)
 
+// Vue.prototype.$bus = new Vue()  // 也可以
+
 new Vue({
   // el: '#app',
   render: h => h(App),
   router, // 配置路由器  ==> 所有的组件都可以通过$router属性得到路由器对象
   store, // 注册vuex的store ==> 所有的组件都可以通过$store来得到store对象
+
+  beforeCreate () {// 尽量早些
+    // 将全局事件总线对象(vm)保存到Vue原型对象上
+    Vue.prototype.$bus = this
+  }
 }).$mount('#app')
 
 /* eslint-disable no-unused-vars */

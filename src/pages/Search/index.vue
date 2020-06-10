@@ -17,12 +17,19 @@
             <li class="with-x" v-if="options.keyword">
               {{options.keyword}}<i @click="removeKeyword">×</i>
             </li>
+            <li class="with-x" v-if="options.trademark">
+              {{options.trademark}}<i @click="removeTrademark">×</i>
+            </li>
+
+            <li class="with-x" v-for="(prop, index) in options.props" :key="prop">
+              {{prop}}<i @click="removeProp(index)">×</i>
+            </li>
           </ul>
         </div>
 
         
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :setTrademark="setTrademark" @addProp="addProp"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -125,7 +132,6 @@
     */
     created () {
       // 需要根据分类的query参数和关键字的params参数来搜索
-
       // 1. 根据query和params参数更新options
       this.updateOptions()
       // 2. 发搜索请求
@@ -149,6 +155,53 @@
     },
 
     methods: {
+
+      /* 
+      删除属性条件
+      */
+      removeProp (index) {
+        // 删除对应的属性条件
+        this.options.props.splice(index, 1)
+        // 重新请求获取列表数据显示
+        this.getProductList()
+      },
+
+      /* 
+      添加一个属性条件
+      */
+      addProp (prop) {
+        // 如果这个属性条件已经存在, 直接结束
+        if (this.options.props.indexOf(prop)>=0) return
+
+        // 向props添加prop
+        this.options.props.push(prop)
+
+        // 重新请求获取列表数据显示
+        this.getProductList()
+      },
+
+      /* 
+      移除品牌条件
+      */
+      removeTrademark () {
+        // 清除品牌数据
+        this.options.trademark = ''
+        // 重新请求获取列表数据显示
+        this.getProductList()
+      },
+
+      /* 
+      设置新的品牌数据
+      */
+      setTrademark (trademark) {
+        // 如果已经有当前品牌的条件数据, 直接结束
+        if (this.options.trademark===trademark) return
+
+        // 更新品牌数据
+        this.options.trademark = trademark
+        // 重新请求获取列表数据显示
+        this.getProductList()
+      },
 
       /* 
       删除分类条件

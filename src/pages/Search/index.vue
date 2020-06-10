@@ -36,8 +36,12 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active: isActive('1')}" @click="setOrder('1')">
+                  <a href="javascript:">
+                    综合
+                    <i class="iconfont" v-if="isActive('1')"
+                      :class="iconClass"></i>
+                  </a>
                 </li>
                 <li>
                   <a href="#">销量</a>
@@ -48,12 +52,16 @@
                 <li>
                   <a href="#">评价</a>
                 </li>
-                <li>
-                  <a href="#">价格⬆</a>
+                <li :class="{active: isActive('2')}" @click="setOrder('2')">
+                  <a href="javascript:">
+                    价格
+                    <i class="iconfont" v-if="isActive('2')"
+                      :class="iconClass"></i>
+                  </a>
                 </li>
-                <li>
+               <!--  <li>
                   <a href="#">价格⬇</a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -102,6 +110,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import {mapState} from 'vuex'
   import SearchSelector from './SearchSelector/SearchSelector'
   export default {
@@ -118,11 +127,11 @@
           keyword: '', // 搜索关键字
 
           props: [], // 商品属性的数组: ["属性ID:属性值:属性名"] ["2:6.0～6.24英寸:屏幕尺寸"]
-          trademark: '', // 品牌: "ID:品牌名称" "1:苹果"
+          // trademark: '', // 品牌: "ID:品牌名称" "1:苹果"
           order: '1:desc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  "1:desc"
 
           pageNo: 1, // 页码
-          pageSize: 2, //	每页数量
+          pageSize: 5, //	每页数量
         }
       }
     },
@@ -141,7 +150,11 @@
     computed: {
       ...mapState({
         productList: state => state.search.productList
-      })
+      }),
+
+      iconClass () {
+        return this.options.order.split(':')[1]==='asc' ? 'iconup' : 'icondown'
+      }
     },
 
     watch: {
@@ -155,6 +168,36 @@
     },
 
     methods: {
+
+      /* 
+      设置新的排序
+      */
+      setOrder (flag) { // '1' / '2'
+
+        // 取出原本的orderFlag和orderType
+        let [orderFlag, orderType] = this.options.order.split(':')  // [orderFlag, orderType]
+
+        // 点击当前排序项: 切换排序方式(排序项不变)
+        if (flag===orderFlag) {
+          orderType = orderType==='asc' ? 'desc' : 'asc'
+        } else { // 点击非当前排序项: 切换排序项, 排序方式为降序
+          orderFlag = flag
+          orderType = 'desc'
+        }
+
+        // 更新order
+        this.options.order = orderFlag + ':' + orderType
+
+        // 重新请求获取数据显示
+        this.getProductList()
+      },
+
+      /* 
+      判断指定的flag对应的项是否选中
+      */
+      isActive (orderFlag) { // '1' / '2'
+        return this.options.order.indexOf(orderFlag)===0
+      },
 
       /* 
       删除属性条件
@@ -185,7 +228,12 @@
       */
       removeTrademark () {
         // 清除品牌数据
-        this.options.trademark = ''
+        // this.options.trademark = ''
+        // delete this.options.trademark  // 不可以
+
+        // this.$delete(this.options, 'trademark')
+        Vue.delete(this.options, 'trademark')
+
         // 重新请求获取列表数据显示
         this.getProductList()
       },
@@ -198,7 +246,13 @@
         if (this.options.trademark===trademark) return
 
         // 更新品牌数据
-        this.options.trademark = trademark
+        // 直接通过.添加新属性  ==> 不会自动更新界面
+        // this.options.trademark = trademark
+
+        // 直接通过$set添加新属性  ==> 会自动更新界面
+        // this.$set( this.options, 'trademark', trademark )
+        Vue.set( this.options, 'trademark', trademark )
+
         // 重新请求获取列表数据显示
         this.getProductList()
       },

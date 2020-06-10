@@ -58,3 +58,37 @@
 		事件名: addProp
 		数据: "属性ID:属性值:属性名"
 	移除一个属性条件
+
+## 排序搜索
+	排序的数据结构: order: '1:desc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  "1:desc"
+		oderFlag: '1' / '2'
+		orderType: 'asc' / 'desc
+		orderFlag:orderType
+	当前排序项? 
+		根据当前order的oderFlag来确定
+	当前排序方式?
+		根据当前order的orderType来确定
+	点击排序项切换排序
+		点击当前排序项: 切换排序方式(排序项不变)
+		点击非当前排序项: 切换排序项, 排序方式为降序
+	
+	注意: 如果不想把模块中的表达写得太长: 需要定义对应的计算属性或者方法
+
+## 响应式数据对象: 添加新属性和删除属性
+	data或state中的所有层次的属性数据都是响应式的(属性值发生变化, 界面就会自动更新)
+	响应式数据对象: data或state中对象类型的属性: 比如options
+	给响应式数据对象添加新属性
+		错误的写法：   不是响应式  ==> 不会自动更新界面
+			options.xxx = 'abc' 
+		正确的写法:  是响应式的 ==> 会自动更新界面
+			Vue.set( target, key, value )
+			vm.$set( target, key, value )
+	删除属性响应式数据对象的属性
+		错误的写法：   
+			delete options.xxx   vue内部不知道, 界面不会自动更新
+		正确的写法:  方法内部先删除属性, 再更新界面
+			Vue.delete( target, key )
+			vm.$delete( target, key )
+
+options.xxx = 'abc'
+options.yyy = 123

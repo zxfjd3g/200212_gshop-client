@@ -108,8 +108,10 @@
 			pageSize: 每页数量
 			total: 总数量
 			showPageNo: 连续页码数 (一般是奇数)
+		
 		设计data: 组件内部的可变数据
 			myCurrentPage: 组件内部维护的当前页码
+		
 		设计computed: 根据props或data数据计算产生的数据
 			totalPages: 总页数
 				依赖数据: total / pageSize   19 / 2  10

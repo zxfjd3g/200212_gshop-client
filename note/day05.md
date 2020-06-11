@@ -117,3 +117,16 @@
 			start/end: 连续页码的开妈页码与结束页码
 				依赖数据: myCurrentPage / showPageNo / totalPages
 				算法:
+					start的最小值是1
+					end的最大值是totalPages
+					从start到end的数量为showPageNo
+		
+		模板页面根据props/data/computed动态显示
+			v-for/v-if/disabled
+			v-for与v-if优先级问题    面试问
+
+		当用户操作时更新数据  ==> 更新界面
+			当当前组件更新数据后, 有可能需要通知父组件(使用什么技术? 自定义事件/函数props)
+			当父组件的数据更新后, 有可能需要通知子组件
+					父组件主动调用子组件的方法修改 ===> 当前不用(后面会用的)
+					子组件主动监视父组件的变化  ===> 当前比较合适

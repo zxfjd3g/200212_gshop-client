@@ -91,3 +91,29 @@
 		正确的写法:  方法内部先删除属性, 再更新界面
 			Vue.delete( target, key )
 			vm.$delete( target, key )
+
+## 自定义分页组件
+	直接使用已定义好的组件
+		<Pagination 
+	        :currentPage="options.pageNo"
+	        :pageSize="options.pageSize"
+	        :total="productList.total"
+	        :showPageNo="5"
+	        @currentChange="getProductList"
+        />
+	封装一个高复用的组件: Pagination
+		静态模板与样式  ===> 静态组件
+		设计props: 从父组件接收的可变数据
+			currentPage: 当前页码
+			pageSize: 每页数量
+			total: 总数量
+			showPageNo: 连续页码数 (一般是奇数)
+		设计data: 组件内部的可变数据
+			myCurrentPage: 组件内部维护的当前页码
+		设计computed: 根据props或data数据计算产生的数据
+			totalPages: 总页数
+				依赖数据: total / pageSize   19 / 2  10
+				算法: Math.ceil(total/pageSize)
+			start/end: 连续页码的开妈页码与结束页码
+				依赖数据: myCurrentPage / showPageNo / totalPages
+				算法:

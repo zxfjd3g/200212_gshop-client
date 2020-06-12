@@ -50,3 +50,34 @@
       	slidesPerGroup: 5, // 每次翻动多少(5)页
 	使用currentIndex标识当前图片下标, 点击时更新它
 	
+## Zoom组件
+	根据传入的imgUrl和bigUrl来动态显示中图和大图
+	放大镜效果的布局:
+		左侧:
+			<img>: 显示中图
+			event的<div>: 用来绑定mousemove事件, 尺寸与<img>一样
+			mask的<div>: 遮罩, 尺寸是<img>的1/4
+		右侧:
+			big的<div>: 包含<img>, 尺寸与左侧<img>一样
+			<img>: 显示大图, 尺寸是左侧<img>的4倍  ==> 右侧只能看到大图的1/4部分
+	放大镜的事件处理
+		绑定什么事件监听?
+			mousemove
+		给谁绑定?
+			左侧的event <div>
+		回调函数中做什么?
+
+			计算left与top值:
+				依赖数据: 事件的offsetX/offsetY, mask <div>的宽度maskWidth
+				算法:
+					left = offsetX - maskWidth/2
+					top = offsetY - maskWidth/2
+					left和top必须在[0, maskWidth]区间内
+	
+			指定mask <div>的坐标值(left, top)
+				maskDiv.style.left = left + 'px'
+				maskDiv.style.top = top + 'px'
+			指定大图 <img>的坐标值(left, top)
+				bigImg.style.left = -2 * left + 'px'
+				bigImg.style.top = -2 * top + 'px'
+

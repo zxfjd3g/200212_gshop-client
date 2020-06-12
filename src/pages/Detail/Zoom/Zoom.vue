@@ -2,10 +2,12 @@
   <div class="spec-preview">
     <img :src="imgUrl" />
     <div class="event"></div>
+    <div class="mask"></div>
+    
     <div class="big">
       <img :src="bigUrl" />
     </div>
-    <div class="mask"></div>
+    
   </div>
 </template>
 

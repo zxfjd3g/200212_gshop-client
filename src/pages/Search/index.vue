@@ -71,9 +71,9 @@
               <li class="yui3-u-1-5" v-for=" item in productList.goodsList" :key="item.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="javascript:">
+                    <router-link :to="`/detail/${item.id}`">
                       <img :src="item.defaultImg" />
-                      </a>
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -82,7 +82,7 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a href="javascript:">{{item.title}}</a>
+                    <router-link :to="`/search/${item.id}`">{{item.title}}</router-link>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>

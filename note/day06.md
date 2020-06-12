@@ -1,10 +1,10 @@
 ## 今日任务: 商品详情
     解决search组件中的2个小问题
-	Detail静态路由组件
-	Detail组件的动态显示
-	ImageList组件
-	Zoom组件
-	添加到购物车
+		Detail静态路由组件
+		Detail组件的动态显示
+		ImageList组件
+		Zoom组件
+		添加到购物车
 
 ## 解决search组件中的2个小问题
 	问题: 点击搜索按钮后, 页面刷新了且地址栏也不正确

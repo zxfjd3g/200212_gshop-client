@@ -39,7 +39,15 @@ const getters = {
   */
   skuInfo (state) {
     return state.detailInfo.skuInfo ? state.detailInfo.skuInfo : {}
-  }
+  },
+
+  /* 
+  商品图片列表
+  */
+ skuImageList (state) {
+  const skuInfo = state.detailInfo.skuInfo
+  return skuInfo ? skuInfo.skuImageList : []
+ } 
 }
 
 export default {

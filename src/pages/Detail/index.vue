@@ -29,9 +29,21 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom v-if="skuImageList.length>0" :imgUrl="skuImageList[currentIndex].imgUrl" 
+            :bigUrl="skuImageList[currentIndex].imgUrl"/>
           <!-- 小图列表 -->
-          <ImageList />
+          <!-- <ImageList @currentChange="handleCurrentChange"/> -->
+          <ImageList @currentChange="currentIndex=$event"/>
+          <!-- 
+            $event是事件对象
+            @click="test"  点击时调用 test(event对象)
+            @click="test($event)"  ==> @click="($event) => {test($event)}"
+
+            事件对象 ===> 事件数据对象 ===> 包含事件相关数据的对象(target/offsetX/offsetY/keyCode)
+            浏览器在分发事件时, 指定事件名和包含事件相关数据对象(会自动传递给事件监听回调函数)
+
+            $event: 分发事件时传递的数据, 也就是$emit('eventname', data)
+           -->
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -366,15 +378,30 @@
   export default {
     name: 'Detail',
 
+    data () {
+      return {
+        currentIndex: 0
+      }
+    },
+
     computed: {
       ...mapState({
         detailInfo: state => state.detail.detailInfo
       }),
-      ...mapGetters(['categoryView', 'skuInfo'])
+      ...mapGetters(['categoryView', 'skuInfo', 'skuImageList'])
     },
 
     mounted () {
       this.$store.dispatch('getDetailInfo', this.$route.params.id)
+    },
+
+    methods: {
+      /* 
+      当前图片下标改变的事件监听回调
+      */
+      handleCurrentChange (index) {
+        this.currentIndex = index
+      }
     },
     
     components: {

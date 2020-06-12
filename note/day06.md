@@ -43,3 +43,10 @@
 	数据: 
 		detailInfo中的spuSaleAttrList属性
 		isChecked属性为'1'时代表是当前的
+
+## ImageList组件
+	使用swiper显示小图片轮播列表:
+		slidesPerView: 5,  // 一次显示5页
+      	slidesPerGroup: 5, // 每次翻动多少(5)页
+	使用currentIndex标识当前图片下标, 点击时更新它
+	

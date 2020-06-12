@@ -24,3 +24,22 @@
 	    	// return 期望滚动到哪个的位置
 	    	return { x: 0, y: 0 }
 	  	}
+
+## Detail组件的动态显示
+	api: getDetailInfo()
+	vuex: detail.js: state/mutations/actions/getters
+	component: dispatch()/mapState()/mapGetters()/模板
+
+## 错误: "TypeError: Cannot read property 'category1Name' of undefined"
+	说明: 在undefined上读取了category1Name属性
+	原因:  data/state中的数据初始值是一个空对象/空数组, 如果模板中直接写一个三层(a.b.c)表达式
+	解决1: 想办法不让detailInfo.categoryView的结果是undefined, 利用getters
+	解决2: 利用v-if来判断, 只有当有数据才解析显示,  ==> 不能使用v-show
+
+## 销售属性列表功能 (大家自己做)
+	功能: 
+		二层嵌套列表 
+		点击某一项就选中对应的项
+	数据: 
+		detailInfo中的spuSaleAttrList属性
+		isChecked属性为'1'时代表是当前的

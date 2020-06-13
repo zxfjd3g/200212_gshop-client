@@ -103,7 +103,7 @@
                 <a href="javascript:" class="mins">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -399,6 +399,13 @@
 
         // 将指定的value选中
         value.isChecked = '1'
+      },
+
+      /* 
+      将当前商品添加到购物车
+      */
+      addToCart () {
+        this.$router.push('/addcartsuccess')
       }
     },
     

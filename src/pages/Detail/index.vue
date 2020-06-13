@@ -405,7 +405,7 @@
       /* 
       将当前商品添加到购物车
       */
-      addToCart () {
+      async addToCart () {
         // 收集数据
         const skuNum = this.skuNum
         const skuId = this.$route.params.id
@@ -415,14 +415,31 @@
         // this.$store.dispatch('addToCart', {skuNum: undefined, skuId: undefined, callback: this.callback})
 
         // 方式二: 利用dispatch()的返回值是promise
-        const promise = this.$store.dispatch('addToCart2', {skuNum, skuId})
+        /* const promise = this.$store.dispatch('addToCart2', {skuNum, skuId})
         console.log('-----', promise)
         promise.then(() => { // 成功
           this.$router.push('/addcartsuccess')
         }).catch(error => { // 失败
           alert(error.message)
-        })
+        }) */
+        
+        /* try {
+          await this.$store.dispatch('addToCart2', {skuNum, skuId})
+          this.$router.push('/addcartsuccess')
+        } catch (error) {
+          alert(error.message)
+        } */
 
+        const errorMsg = await this.$store.dispatch('addToCart3', {skuNum, skuId})
+        if (errorMsg) { // 失败
+          alert(errorMsg)
+        } else { // 成功
+
+          // 将当前商品的skuInfo的json文本保存到sessionStorage中
+          window.sessionStorage.setItem('SKU_INFO_KEY', JSON.stringify(this.skuInfo))
+          // 跳转路由, 携带skuNum的query参数
+          this.$router.push({path: '/addcartsuccess', query: {skuNum}})
+        }
 
         // 如果成功了, 跳转到成功的路由
         

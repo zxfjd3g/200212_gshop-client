@@ -98,9 +98,9 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum">
+                <a href="javascript:" class="plus" @click="skuNum = skuNum*1 + 1">+</a>
+                <a href="javascript:" class="mins" @click="skuNum = skuNum>1 ? skuNum-1 : skuNum">-</a>
               </div>
               <div class="add">
                 <a href="javascript:" @click="addToCart">加入购物车</a>
@@ -363,7 +363,8 @@
 
     data () {
       return {
-        currentIndex: 0
+        currentIndex: 0, // 当前要显示图片的下标
+        skuNum: 1, // 商品的数量
       }
     },
 
@@ -405,7 +406,40 @@
       将当前商品添加到购物车
       */
       addToCart () {
-        this.$router.push('/addcartsuccess')
+        // 收集数据
+        const skuNum = this.skuNum
+        const skuId = this.$route.params.id
+        // dispatch()
+        // 方式一: 使用回调函数数据
+        // this.$store.dispatch('addToCart', {skuNum, skuId, callback: this.callback})
+        // this.$store.dispatch('addToCart', {skuNum: undefined, skuId: undefined, callback: this.callback})
+
+        // 方式二: 利用dispatch()的返回值是promise
+        const promise = this.$store.dispatch('addToCart2', {skuNum, skuId})
+        console.log('-----', promise)
+        promise.then(() => { // 成功
+          this.$router.push('/addcartsuccess')
+        }).catch(error => { // 失败
+          alert(error.message)
+        })
+
+
+        // 如果成功了, 跳转到成功的路由
+        
+        // 如果失败了, 提示
+        
+      },
+
+      /* 
+      在异步action执行成功或失败后, 才回调执行的方法
+      errorMsg: 需要显示的错误信息, 如果成功了, 没有值
+      */
+      callback (errorMsg) {
+        if (errorMsg) { // 如果失败了, 提示
+          alert(errorMsg)
+        } else { // 如果成功了, 跳转到成功的路由
+          this.$router.push('/addcartsuccess')
+        }
       }
     },
     

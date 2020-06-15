@@ -21,7 +21,7 @@ const actions = {
     const result = await reqDetailInfo(skuId)
     if(result.code===200){
       const detailInfo = result.data
-      commit('RECEIVE_DETAIL_INFO', detailInfo)
+      commit('RECEIVE_DETAIL_INFO', detailInfo)    // $emit(eventName, data)
     }
   },
 }
@@ -52,7 +52,7 @@ const getters = {
 
 export default {
   state,
-  actions,
   mutations,
+  actions,
   getters
 }

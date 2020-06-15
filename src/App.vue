@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 import Header from './components/Header'
 import Footer from './components/Footer'
 // import {reqCategoryList, reqFloors} from './api'
@@ -25,8 +26,14 @@ export default {
     // console.log('result---', result)
 
     // 分发给异步action请求获取分类数据  / 在路由切换时不会重新执行
-    this.$store.dispatch('getCategoryList')
+    // this.$store.dispatch('getCategoryList')
+    this.getCategoryList()
+  },
 
+  methods: {
+    ...mapActions(['getCategoryList'])
+
+    // { getCategoryList () {this.$store.dispatch('getCategoryList')} }
   },
 
   // 注册组件(局部, 当前组件可用)

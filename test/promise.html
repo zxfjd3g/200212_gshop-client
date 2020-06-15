@@ -6,6 +6,39 @@
   <title>Document</title>
 </head>
 <body>
-  
+<script>
+  new Promise((resolve, reject) => {
+    // 执行异步操作代码, 如果成功了, 调用resolve(value)
+    /*setTimeout(() => {
+      resolve('成功的value')
+    }, 1000)*/
+    // 执行异步操作代码, 如果失败了, 调用reject(reason)
+    setTimeout(() => {
+      reject('失败的reason')
+    }, 2000)
+  }).then(
+    value => {
+      console.log('onResolved()1', value)
+    }, // 成功的回调
+    reason => {
+      console.log('onRejected()1', reason)
+      //      1). 函数执行抛出了异常  ==> 失败, reason就是抛出的异常
+      // throw 1
+      //      2). 函数执行返回一个失败的promise ==> 失败, reason就是返回的promise的reason
+      // return Promise.reject(2)
+      //      3). 函数执行返回一个成功的promise ==> 成功, value就是返回的promise的value
+      //      return Promise.resolve(3)
+      //      4). 函数执行返回其它任意值 ==> 成功, value就是返回的值
+      //      return 4
+    } // 失败的回调
+  ).then(
+    value => {
+      console.log('onResolved()2', value)
+    },
+    reason => {
+      console.log('onRejected()2', reason)
+    }
+  )
+</script>
 </body>
 </html>

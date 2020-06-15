@@ -39,7 +39,8 @@ export default [
   },
 
   {
-    path: '/detail/:id',
+    name: 'detail',  // 有了name后才可以用对象的写法进行跳转
+    path: '/detail/:id', // 如果不写name配置, 必须使用字符串的写进行跳转
     component: Detail
   },
   {

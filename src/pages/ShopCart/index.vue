@@ -26,9 +26,15 @@
             <span class="price">{{item.cartPrice}}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input autocomplete="off" type="text" class="itxt" :value="item.skuNum">
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a href="javascript:void(0)" class="mins" @click="changeItemCount(item, -1)">-</a>
+            <!-- 
+              在vue中和原生DOM中的input输入框
+                input事件: 输入改变时触发
+                change事件: 失去焦点才触发
+            -->
+            <input autocomplete="off" type="text" class="itxt" :value="item.skuNum" 
+              @change="changeItemCount(item, $event.target.value - item.skuNum, $event)">
+            <a href="javascript:void(0)" class="plus" @click="changeItemCount(item, 1)">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{item.cartPrice * item.skuNum}}</span>
@@ -118,6 +124,35 @@
         } catch (error) {
           // 如果失败了, 提示
           alert(error.message)
+        }
+      },
+
+      /* 
+      修改商品数量
+        最终的数量必须大于0 , 否则让其为原来的值
+      */
+      async changeItemCount (item, numChange, event) {
+
+        // 计算最终的目标数量, 只有大于才去发请求
+        const num = item.skuNum + numChange
+        if (num>0) {
+          // 准备数据
+          const skuId = item.skuId
+          const skuNum = numChange
+          try {
+            // 分发异步action addToCart2  ==> 提交请求
+            await this.$store.dispatch('addToCart2', {skuId, skuNum})
+            // 如果成功了, 重新获取购物车数据显示
+            this.$store.dispatch('getCartList')
+          } catch (error) {
+            // 如果失败了, 提示
+            alert(error.message)
+          }
+        } else {
+          // 否则, 置为原本的值 (手动输入了一个小于等于0的值或者输入了一个非数字)
+          if (event) {
+            event.target.value = item.skuNum
+          }
         }
       }
     }

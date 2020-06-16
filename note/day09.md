@@ -65,3 +65,28 @@
 		对应setter方法中, 分发触发checkAllCartItems action调用  ===> 发请求
 		如果失败了, 提示
 		如果成功了, 重新获取购物车数据显示
+
+## 修改商品数量
+	api: reqAddToCart(skuId, skuNum)
+		skuId: 商品ID
+		skuNum: 商品数量, 正数代表增加, 负数代表减少
+	vuex: 
+		addToCart2({commit}, {skuId, skuNum})
+	component: 
+		绑定click与change事件
+		在vue中和原生DOM中的input输入框
+            input事件: 输入改变时触发
+            change事件: 失去焦点才触发
+		在change事件调用多输入了一个$event参数
+		在事件回调函数分异步action发更新数量的请求
+		对数量要进行判断限制
+
+
+
+
+1--完成: 组件中得到了购物车列表数据
+2--完成: 完成显示购物车数据
+3--完成: 勾选某个购物项
+4--完成: 全选/全不选
+
+0.5 / 1 / 1.5 / 2 / 2.5 / 3 / 3.5 / 4

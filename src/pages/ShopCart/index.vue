@@ -32,7 +32,8 @@
                 input事件: 输入改变时触发
                 change事件: 失去焦点才触发
             -->
-            <input autocomplete="off" type="text" class="itxt" :value="item.skuNum" 
+            <input autocomplete="off" type="text" class="itxt" :value="item.skuNum"
+              @keyup="handleKeyup" 
               @change="changeItemCount(item, $event.target.value - item.skuNum, $event)">
             <a href="javascript:void(0)" class="plus" @click="changeItemCount(item, 1)">+</a>
           </li>
@@ -40,7 +41,7 @@
             <span class="sum">{{item.cartPrice * item.skuNum}}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="javascript:" class="sindelet" @click="deleteCartItem(item)">删除</a>
             <br>
             <a href="#none">移到收藏</a>
           </li>
@@ -54,7 +55,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="javascript:" @click="deleteCheckedCartItems">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -110,6 +111,18 @@
 
     methods: {
       /* 
+      处理keyup事件
+      */
+      handleKeyup (event) {
+        // 得到输入框
+        const input = event.target
+        // 将输入框中的开头的n个0或者n个非数字替换为空串
+        // \D代表非数字 
+        // +代表个数>=0
+        input.value = input.value.replace(/^0+|\D+/,'')
+      },
+
+      /* 
       勾选/不勾选指定的购物项
       */
       async checkCartItem (item) {
@@ -152,6 +165,38 @@
           // 否则, 置为原本的值 (手动输入了一个小于等于0的值或者输入了一个非数字)
           if (event) {
             event.target.value = item.skuNum
+          }
+        }
+      },
+
+      /* 
+      删除指定购物项
+      */
+      async deleteCartItem (item) {
+        if (window.confirm(`确定删除${item.skuName}吗?`)) {
+          try {
+            // 分发一个异步action
+            await this.$store.dispatch('deleteCartItem', item.skuId)
+            // 异步请求操作成功了
+            this.$store.dispatch('getCartList')
+          } catch (error) { // 异步请求操作失败了
+            alert(error.message)
+          }
+        }
+      },
+
+      /* 
+      删除所有选中的购物项
+      */
+      async deleteCheckedCartItems () {
+        if (window.confirm(`确定删除吗?`)) {
+          try {
+            // 分发一个异步action
+            await this.$store.dispatch('deleteCheckedCartItems')
+            // 异步请求操作成功了
+            this.$store.dispatch('getCartList')
+          } catch (error) { // 异步请求操作失败了
+            alert(error.message)
           }
         }
       }

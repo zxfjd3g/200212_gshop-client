@@ -7,7 +7,7 @@
           <p>尚品汇欢迎您！</p>
           <p v-if="userInfo.token">
             <span>{{userInfo.name}}</span> &nbsp;&nbsp;
-            <a href="javascript:">退出</a>
+            <a href="javascript:" @click="logout">退出</a>
           </p>
           <p v-else>
             <span>请</span>
@@ -71,6 +71,19 @@
     },
 
     methods: {
+      /* 
+      退出登陆
+      */
+      logout () {
+        if (confirm('确定退出吗?')) {
+          this.$store.dispatch('logout').then(() => {
+            this.$router.push('/login')
+          }).catch(error => {
+            alert(error.message)
+          })
+        }
+      },
+
       search () {
         const {keyword} = this
         // 编程式路由跳转/导航

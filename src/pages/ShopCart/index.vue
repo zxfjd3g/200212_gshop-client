@@ -34,9 +34,9 @@
             -->
               <!-- 
                 输入3种方式:
-                  1) 键盘单字符输入
-                  2) 通过 CTRL + C 粘贴输入
-                  3) 通过 鼠标右键粘贴输入
+                  键盘单字符输入
+                  通过 CTRL + C 粘贴输入
+                  通过 鼠标右键粘贴输入
                 @input="validInput": 
                   三种方式都能监听, 输入非法字符不会有输入变化, 粘贴时已自动去掉非法字符
                 @keyup="validInput" 
@@ -45,7 +45,7 @@
                 粘贴测试文本: -0a011a0110  0110110
               -->
             <input autocomplete="off" type="text" class="itxt" :value="item.skuNum"
-              @input="validInput" 
+              @keyup="validInput" 
               @change="changeItemCount(item, $event.target.value - item.skuNum, $event)">
             <a href="javascript:void(0)" class="plus" @click="changeItemCount(item, 1)">+</a>
           </li>
@@ -137,9 +137,8 @@
           g 找出所有匹配的
 
           粘贴测试文本: -0a011a0110  替换后变为 11110
-
         */
-        input.value = input.value.replace(/^(0+)|\D+0+/g,'')
+        input.value = input.value.replace(/^0+|\D+0+/g,'')
       },
 
       /* 

@@ -1,7 +1,7 @@
 /* 
 管理购物车相关数据的vuex子模块
 */
-import {reqShopCart, reqAddToCart} from '@/api'
+import {reqShopCart, reqAddToCart, reqCheckCartItem} from '@/api'
 
 const state = {
   cartList: [], // 购物车购物项的列表
@@ -66,6 +66,20 @@ const actions = {
     } else {  // 这个else完全可以不用写
       return undefined   // action的promise是成功的, value是undefined
     }
+  },
+
+  /* 
+  勾选/不勾选某个购物项商品
+  skuId: 商品的ID
+  isChecked: 商品选中状态, '0'代表不选中, '1'代表选中
+  */
+  async checkCartItem ({commit}, {skuId, isChecked}) {
+    // 调用接口请求函数, 提交异步ajax请求
+    const result = await reqCheckCartItem(skuId, isChecked)
+    // 请求处理如果没有成功, 返回一个error对象
+    if (result.code!==200) {
+      throw new Error(result.message || '选中商品失败')
+    }
   }
 }
 
@@ -81,7 +95,7 @@ const getters = {
     })
     return total 
     */
-    return state.cartList.reduce((preTotal, item, index) => preTotal + item.skuNum , 0) 
+    return state.cartList.reduce((preTotal, item, index) => preTotal + (item.isChecked===1?item.skuNum:0) , 0) 
   },
 
   /* 

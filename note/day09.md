@@ -37,3 +37,12 @@
 	使用:
 		每个请求自动携带userTempId的请求头: 在请求拦截器中实现
 
+## 勾选/不勾选某个商品 / 改变某个购物项商品的勾选状态
+	api: reqCheckCartItem (skuId, isChecked)
+		skuId: 商品的ID
+		isChecked: 商品选中状态, '0'代表不选中, '1'代表选中
+	vuex: checkCartItem({commit}, {skuId, isChecked})
+	component:
+		在change事件回调中, 分发触发checkCartItem action调用  ===> 发请求
+		如果失败了, 提示
+		如果成功了, 重新获取购物车数据显示

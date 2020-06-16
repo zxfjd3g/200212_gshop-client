@@ -12,22 +12,11 @@
       </div>
       <div class="cart-body">
 
-        <!-- 
-
-          cartPrice:4500
-          id:1361
-          imgUrl:"http://182.92.128.115:8080/group1/M00/00/0F/rBFUDF7JsSCAQY55AAM4uhmZIG8446.png"
-          isChecked:0
-          skuId:113
-          skuName:" 荣耀V30 Pro-22"
-          skuNum:711
-          skuPrice:4500
-          userId:"18bdb556-da9e-4c06-9c22-e361164580ba"
-         -->
         <ul class="cart-list" v-for="item in cartList" :key="item.id">
           <li class="cart-list-con1">
             <!-- isChecked: 0:不勾选, 1: 勾选 -->
-            <input type="checkbox" name="chk_list" :checked="item.isChecked===1">
+            <input type="checkbox" name="chk_list" :checked="item.isChecked===1" 
+              @change="checkCartItem(item)">
           </li>
           <li class="cart-list-con2">
             <img :src="item.imgUrl">
@@ -92,6 +81,26 @@
 
     mounted () {
       this.$store.dispatch('getCartList')
+    },
+
+    methods: {
+      /* 
+      勾选/不勾选指定的购物项
+      */
+      async checkCartItem (item) {
+        // 准备数据
+        const skuId = item.skuId
+        const isChecked = item.isChecked===1 ? '0' : '1'
+        try {
+          // 分发触发checkCartItem action调用  ===> 发请求
+          await this.$store.dispatch('checkCartItem', {skuId, isChecked})
+          // 如果成功了, 重新获取购物车数据显示
+          this.$store.dispatch('getCartList')
+        } catch (error) {
+          // 如果失败了, 提示
+          alert(error.message)
+        }
+      }
     }
 
   }

@@ -15,6 +15,8 @@ export function getUserTempId () {
   // 2. 如果没有, 使用uuid生成一个新的, 保存到localStorage中, 返回它
   if (!userTempId) {
     userTempId = uuidv4()
+    // 保存到localStorage中
+    localStorage.setItem('USER_TEMP_ID_KEY', userTempId)
   }
   // 返回它
   return userTempId

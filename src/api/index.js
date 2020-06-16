@@ -72,7 +72,7 @@ skuId: 商品的ID
 isChecked: 商品选中状态, '0'代表不选中, '1'代表选中
 /api/cart/checkCart/{skuId}/{isChecked} GET
 */
-export const reqCheckChartItem = (skuId, isChecked) => ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
+export const reqCheckCartItem = (skuId, isChecked) => ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
 
 /* 
 删除购物项商品

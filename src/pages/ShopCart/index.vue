@@ -32,8 +32,20 @@
                 input事件: 输入改变时触发
                 change事件: 失去焦点才触发
             -->
+              <!-- 
+                输入3种方式:
+                  1) 键盘单字符输入
+                  2) 通过 CTRL + C 粘贴输入
+                  3) 通过 鼠标右键粘贴输入
+                @input="validInput": 
+                  三种方式都能监听, 输入非法字符不会有输入变化, 粘贴时已自动去掉非法字符
+                @keyup="validInput" 
+                  不能监视鼠标右键方式, 输入非法字符显示后再自动删除, 粘贴时显示后再自动删除非法字符
+
+                粘贴测试文本: -0a011a0110  0110110
+              -->
             <input autocomplete="off" type="text" class="itxt" :value="item.skuNum"
-              @keyup="handleKeyup" 
+              @input="validInput" 
               @change="changeItemCount(item, $event.target.value - item.skuNum, $event)">
             <a href="javascript:void(0)" class="plus" @click="changeItemCount(item, 1)">+</a>
           </li>
@@ -111,15 +123,23 @@
 
     methods: {
       /* 
-      处理keyup事件
+      检查输入
       */
-      handleKeyup (event) {
-        // 得到输入框
+      validInput (event) {
+        console.log('validInput()-----')
+        // 得到输入框(0+)
         const input = event.target
         // 将输入框中的开头的n个0或者n个非数字替换为空串
-        // \D代表非数字 
-        // +代表个数>=0
-        input.value = input.value.replace(/^0+|\D+/,'')
+        /* 
+          /^(0+)|\D+0+/g : 匹配 开头的1+个0 或者 任意位置的1+个非数字及后面1+个0
+          \D 代表非数字 
+          + 代表个数>=0
+          g 找出所有匹配的
+
+          粘贴测试文本: -0a011a0110  替换后变为 11110
+
+        */
+        input.value = input.value.replace(/^(0+)|\D+0+/g,'')
       },
 
       /* 

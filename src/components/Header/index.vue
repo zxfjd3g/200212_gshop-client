@@ -5,7 +5,11 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="userInfo.token">
+            <span>{{userInfo.name}}</span> &nbsp;&nbsp;
+            <a href="javascript:">退出</a>
+          </p>
+          <p v-else>
             <span>请</span>
             <!-- <router-link to="/login">登录</router-link> -->
             <router-link :to="{path: '/login'}">登录</router-link>
@@ -46,6 +50,12 @@
 <script>
   export default {
     name: 'Header',
+
+    computed: {
+      userInfo () {
+        return this.$store.state.user.userInfo
+      }
+    },
 
     data () {
       return {

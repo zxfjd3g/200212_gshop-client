@@ -8,22 +8,6 @@ import ajax from './ajax'
 import mockAjax from './mockAjax'
 
 /* 
-登录
-/api/user/passport/login
-*/
-export function reqLogin (mobile, password) {
-  // 将ajax作为函数使用
-  /* return ajax({
-    url: '/user/passport/login',
-    method: 'POST',
-    data: {mobile, password}
-  }) */
-
-  // 将ajax作为对象使用
-  return ajax.post('/user/passport/login', {mobile, password})
-}
-
-/* 
 首页三级分类
 /api/product/getBaseCategoryList GET
 */
@@ -81,3 +65,34 @@ export const reqCheckCartItem = (skuId, isChecked) => ajax.get(`/cart/checkCart/
 export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)
 
 
+/* 
+登录
+/api/user/passport/login
+*/
+export function reqLogin (mobile, password) {
+  // 将ajax作为函数使用
+  /* return ajax({
+    url: '/user/passport/login',
+    method: 'POST',
+    data: {mobile, password}
+  }) */
+
+  // 将ajax作为对象使用
+  return ajax.post('/user/passport/login', {mobile, password})
+}
+
+/* 
+16.注册用户
+/api/user/passport/register POST
+userInfo: 包含以下属性的对象
+  mobile
+  password
+  code
+*/
+export const reqRegister = (userInfo) => ajax.post('/user/passport/register', userInfo)
+
+/* 
+退出登陆
+/api/user/passport/logout GET
+*/
+export const reqLogout = () => ajax('/user/passport/logout')

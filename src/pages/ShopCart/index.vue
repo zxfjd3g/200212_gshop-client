@@ -125,8 +125,20 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: 'ShopCart',
+
+    computed: {
+      ...mapState({
+        cartList: state => state.shopCart.cartList
+      })
+    },
+
+    mounted () {
+      this.$store.dispatch('getCartList')
+    }
+
   }
 </script>
 

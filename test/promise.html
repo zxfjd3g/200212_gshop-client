@@ -39,6 +39,20 @@
       console.log('onRejected()2', reason)
     }
   )
+
+
+  /* 
+  常用语法: Promise.all(promises)
+    接收包含N个promise的数组, 返回一个新的promise
+    只有当数组中所有promise成功了, 返回的promise才成功, value是所有成功promise的value的数组
+    只要有一个promise失败了, 返回的promise就失败了, reason是失败的promise的reason
+  */
+  const p1 = Promise.resolve(1)
+  const p2 = Promise.resolve(2)
+  const p3 = Promise.reject(3)
+
+  const p4 = Promise.all([p1, p2]) // p4成功了, value是[1,2]   为什么?
+  const p5 = Promise.all([p1, p2, p3]) // p5失败了, reason是3  为什么?
 </script>
 </body>
 </html>

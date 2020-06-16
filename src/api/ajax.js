@@ -10,9 +10,12 @@ axios的二次封装(axios本身就是对XHR原生ajax的封装)     面试必�
     在响应拦截器成功回调中: return response.data
 4. 统一处理请求错误, 具体请求也可以选择处理或不处理
     在响应拦截器失败的回调中: 提法错误信息, 抛出error或返回失败的promise
+
+5. 每个请求自动携带userTempId的请求头: 在请求拦截器中实现
 */
 import axios from 'axios'
 import NProgress from 'nprogress'
+import store from '@/store'
 
 /* 1. 配置通用的基础路径和超时 */
 // instance是一个与axios功能类似的ajax请求函数
@@ -27,6 +30,10 @@ const instance = axios.create({
 instance.interceptors.request.use(config => { // 在真正发送请求前执行
   /* 2.1 在请求拦截器回调中执行: NProgress.start() */
   NProgress.start()
+
+  /* 5. 每个请求自动携带userTempId的请求头: 在请求拦截器中实现 */
+  // config.headers['userTempId'] = this.$store.state.user.userTempId  // 不可以, this不是组件对象
+  config.headers['userTempId'] = store.state.user.userTempId 
 
   return config
 })

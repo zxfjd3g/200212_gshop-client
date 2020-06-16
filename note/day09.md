@@ -46,3 +46,12 @@
 		在change事件回调中, 分发触发checkCartItem action调用  ===> 发请求
 		如果失败了, 提示
 		如果成功了, 重新获取购物车数据显示
+
+## 全选或全选
+	api: 没有对应的接口, 得使用reqCheckCartItem(skuId, isChecked)
+	vuex: checkAllCartItems()
+		
+	component:
+		对应setter方法中, 分发触发checkAllCartItems action调用  ===> 发请求
+		如果失败了, 提示
+		如果成功了, 重新获取购物车数据显示

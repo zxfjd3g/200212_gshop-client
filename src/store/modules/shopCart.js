@@ -80,6 +80,42 @@ const actions = {
     if (result.code!==200) {
       throw new Error(result.message || '选中商品失败')
     }
+  },
+
+  /* 
+  全部勾选/不勾选
+  checked: 是否勾选的布尔值
+  1). 需要对所有购物项与checked不一致的购物项发送请求
+  2). 针对每个需要发请求的item去触发checkCartItem()调用  ===> 调用dispatch()
+  3). context对象的结构:
+      {
+        state,      // 等同于 `store.state`，若在模块中则为局部状态
+        getters,    // 等同于 `store.getters`
+        commit,     // 等同于 `store.commit`
+        dispatch,   // 等同于 `store.dispatch`
+      }
+  4). 执行多个请求的异步操作, 只有当都成功时, 整体异步action才成功, 否则失败
+      const promise = Promise.all([p1, p2, p3])
+  */
+  async checkAllCartItems ({commit, state, dispatch}, checked) {
+    // 确定对应的isChecked值
+    const isChecked = checked ? '1' : '0'
+    let promises = []
+
+    // 遍历每个购物项
+    state.cartList.forEach(item => {
+      // 购物项的状态与目标状态不一样
+      if (item.isChecked!=isChecked) {
+        // 分发给checkCartItem, 得到其返回的promise对象
+        const promise = dispatch('checkCartItem', {skuId: item.skuId, isChecked})
+        // 保存到数组中
+        promises.push(promise)
+      }
+    })
+
+    // 此时请求发出去没有? 已经发了
+    // 返回promise对象(只有所有dispatch都成功了才成功, 否则就是失败的)
+    return Promise.all(promises) 
   }
 }
 

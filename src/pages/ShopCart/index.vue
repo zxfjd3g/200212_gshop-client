@@ -44,7 +44,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" v-model="isCheckAll">
+        <input class="chooseAll" type="checkbox" v-model="checkAll">
         <span>全选</span>
       </div>
       <div class="option">
@@ -76,7 +76,26 @@
       ...mapState({
         cartList: state => state.shopCart.cartList
       }),
-      ...mapGetters(['totalCount', 'totalPrice', 'isCheckAll'])
+      ...mapGetters(['totalCount', 'totalPrice', 'isCheckAll']),
+
+      // 包含getter和setter的计算局长
+      checkAll: {
+        get () {
+          return this.isCheckAll
+        },
+        // 当用户点击改变勾选框的勾选状态时调用
+        async set (value) { // 标识当前是否勾选的布尔值true/false
+          try {
+            // 分发触发checkAllCartItems action调用  ===> 发请求
+            await this.$store.dispatch('checkAllCartItems', value)
+            // 如果成功了, 重新获取购物车数据显示
+            this.$store.dispatch('getCartList')
+          } catch (error) {
+            // 如果失败了, 提示
+            alert(error.message)
+          }
+        }
+      }
     },
 
     mounted () {

@@ -69,13 +69,41 @@ const actions = {
   }
 }
 
-const gettters = {
+const getters = {
+  /* 
+  选中的总数量
+  */
+  totalCount (state) {
+    /* 
+    let total = 0
+    state.cartList.forEach(item => {
+      total += item.skuNum
+    })
+    return total 
+    */
+    return state.cartList.reduce((preTotal, item, index) => preTotal + item.skuNum , 0) 
+  },
 
+  /* 
+  选中的总价格
+  */
+  totalPrice (state) {
+    return state.cartList.reduce((pre, item, index) => pre + item.skuNum*item.cartPrice , 0) 
+  },
+
+
+  /* 
+  是否全部选中了
+  */
+  isCheckAll (state) {
+    // 如果数组中每个都选中就返回true, 否则是false
+    return state.cartList.length>0 && state.cartList.every((item, index) => item.isChecked===1)
+  }
 }
 
 export default {
   state,
   mutations,
   actions,
-  gettters
+  getters
 }

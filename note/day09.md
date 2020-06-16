@@ -50,7 +50,17 @@
 ## 全选或全选
 	api: 没有对应的接口, 得使用reqCheckCartItem(skuId, isChecked)
 	vuex: checkAllCartItems()
-		
+		1). 需要对所有购物项与checked不一致的购物项发送请求
+		2). 针对每个需要发请求的item去触发checkCartItem()调用  ===> 调用dispatch()
+		3). context对象的结构:
+		  {
+		    state,      // 等同于 `store.state`，若在模块中则为局部状态
+		    getters,    // 等同于 `store.getters`
+		    commit,     // 等同于 `store.commit`
+		    dispatch,   // 等同于 `store.dispatch`
+		  }
+		4). 执行多个请求的异步操作, 只有当都成功时, 整体异步action才成功, 否则失败
+		  const promise = Promise.all([p1, p2, p3])
 	component:
 		对应setter方法中, 分发触发checkAllCartItems action调用  ===> 发请求
 		如果失败了, 提示

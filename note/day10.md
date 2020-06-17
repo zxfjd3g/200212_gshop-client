@@ -61,7 +61,6 @@
 			更新: beforeRouteUpdate (to, from, next) 
 			离开:  beforeRouteLeave (to, from, next)
 
-
 ## 导航守卫相关功能
 	a.只有登陆了, 才能查看交易/支付/个人中心界面
 	b.只有没有登陆, 才能查看登陆界面
@@ -71,8 +70,15 @@
 	f.只有从支付界面, 才能跳转到支付成功的界面
 
 ## 我的订单列表
-	api: 
+	api: reqOrders(page, limit)
 	component: 
+		如何直接能得到包含所有接口请求函数的对象? Vue.prototype.$API = API  ==> this.$API.reqOrder()
+		将异步获取指定页码显示的代码封装成方法: getOrders(page=1)
+		初始显示后动态显示第一页列表: 在mounted()中调用getOrders()
+		分页组件Pagination绑定当前页码改变的监听: @currentChange="getOrders"
+		列表中的某些列只显示一行: v-if="index===0"
+		统一控制多个标签: <template v-if="index===0">包含多个标签
+
 
 ## 功能编码任务列表
 	功能1--实现: 注册功能
@@ -83,4 +89,3 @@
 	功能6--实现: 只有没有登陆, 才能查看登陆界面
 	功能7--实现: 导航守卫其它功能
 	功能8--实现: 订单分页列表
-

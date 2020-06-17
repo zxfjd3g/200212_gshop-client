@@ -19,7 +19,7 @@
 		state: cartList
 		mutations:RECEIVE_CART_LIST()
 		actions: getCartList()
-		getters: 
+		getters: totalCount / totalPrice / isAllChecked
 	component:
 		dispatch()
 		mapState()
@@ -56,7 +56,7 @@
 
 ## 全选或全选
 	api: 没有对应的接口, 得使用reqCheckCartItem(skuId, isChecked)
-	vuex: checkAllCartItems()
+	vuex: checkAllCartItems(context, data)
 		1). 需要对所有购物项与checked不一致的购物项发送请求
 		2). 针对每个需要发请求的item去触发checkCartItem()调用  ===> 调用dispatch()
 		3). context对象的结构:
@@ -119,6 +119,18 @@
 	点击回调中分发给登陆的异步action发请求
 	如果成功了, 跳转到首页(有更好的处理???)
 	如果失败了, 提示
+
+## 自动登陆
+		方式一: 登陆请求成功后保存返回的用户所有信息(token及用户名等)到local中
+					初始化时就自动读取local中保存的用户信息实现自动登陆  ===> 不需要额外发请求
+		方式二:登陆请求成功后只保存token到local中
+					初始化时就需要从local中读取出token, 并发请求获取用户信息实现自动 ==>需要额外发请求
+		注意: 我们的后台没有一个根据token来获取用户信息的接口 ==> 只能用方式一
+
+## 退出登陆
+		发送退出登陆的请求
+		如果失败了提示
+		如果成功了, 清除数据, 自动跳转到登陆页面
 
 ## 编码任务进度列表
 	1--完成: 组件中得到了购物车列表数据

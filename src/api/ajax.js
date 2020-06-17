@@ -12,6 +12,7 @@ axios的二次封装(axios本身就是对XHR原生ajax的封装)     面试必�
     在响应拦截器失败的回调中: 提法错误信息, 抛出error或返回失败的promise
 
 5. 每个请求自动携带userTempId的请求头: 在请求拦截器中实现
+6. 登陆后每个请求自动携带token的请求头: 在请求拦截器中实现
 */
 import axios from 'axios'
 import NProgress from 'nprogress'
@@ -34,6 +35,12 @@ instance.interceptors.request.use(config => { // 在真正发送请求前执行
   /* 5. 每个请求自动携带userTempId的请求头: 在请求拦截器中实现 */
   // config.headers['userTempId'] = this.$store.state.user.userTempId  // 不可以, this不是组件对象
   config.headers['userTempId'] = store.state.user.userTempId 
+
+  /* 6. 登陆后每个请求自动携带token的请求头: 在请求拦截器中实现 */
+  const token = store.state.user.userInfo.token
+  if (token) {
+    config.headers['token'] = token
+  }
 
   return config
 })

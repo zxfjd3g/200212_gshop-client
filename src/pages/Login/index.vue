@@ -96,6 +96,23 @@
           alert(error.message)
         }
       }
+    },
+    /* 
+    在进入当前组件前调用(此时组件对象还没有创建)
+    不能直接在此函数中通过this得到组件对象
+    */
+    beforeRouteEnter (to, from, next) {
+      // console.log('beforeRouteEnter()', this)
+      // const token = this.$store.state.user.userInfo.token // this不是组件对象
+      next(vm => { // 此回调函数在组件对象创建后调用, 且传入的是组件对象
+        // 通过 `vm` 访问组件实例  vm就是当前组件对象
+        const token = vm.$store.state.user.userInfo.token
+        if (token) {
+          next('/')
+        } else { // 如果没有登陆就放行
+          next()
+        }
+      })
     }
   }
 </script>

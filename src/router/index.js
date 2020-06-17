@@ -97,11 +97,6 @@ router.beforeEach((to, from, next) => { // 监视的回调函数
     // 放行
     next()
   }
-    
-
-  
-
-  
 })
 
 // 向外暴露路由器对象

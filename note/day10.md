@@ -40,13 +40,26 @@
 ## 路由守卫
 	路由导航(跳转)守卫是什么?
 		vue-router提供的能监控(监视和控制)路由跳转的相关语法功能
-	分类:
+	
+	分类:  (应用开发中基本都是用前置守卫)
 		全局守卫
-			全局前置: router.beforeEach((to, from, next) => {})   // 针对任意路由跳转
+			前置: 监视任意路由跳转, 在准备跳转到目标路由时回调
+				router.beforeEach((to, from, next) => {})
+				to: 目标路由对象
+				from: 当前路由对象  对应的就$route
+				next: 控制路由跳转的函数
+				  不执行: 不放行, 不会跳转到目标路由
+				  next(): 放行, 请求的路由组件才能显示
+				  next(path): 强制跳转到指定路由去
+			后置: 监视任意路由跳转, 在已经跳转到目标路由时才调用
 		路由守卫
-			前置: beforeEnter: (to, from, next) => { }
+			前置: 监视是跳转到当前路由, 当准备跳转时回调
+				beforeEnter: (to, from, next) => { }
 		组件守卫
-			前置: beforeRouteEnter (to, from, next) {},
+			前置: 与路由前置守卫功能类似
+				beforeRouteEnter (to, from, next) {},
+			更新: beforeRouteUpdate (to, from, next) 
+			离开:  beforeRouteLeave (to, from, next)
 
 
 ## 导航守卫相关功能
@@ -63,3 +76,5 @@
 	功能2--实现: 根据注册的表单检验实现登陆的表单校验
 	功能3--实现: token与userTempId的使用和测试
 	功能4--实现: 订单与支付相关路由流程
+	功能5--实现: 只有登陆了, 才能查看交易/支付/个人中心界面
+	功能6--实现: 只有没有登陆, 才能查看登陆界面

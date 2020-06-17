@@ -17,6 +17,8 @@ import Center from '@/pages/Center'
 import MyOrder from '@/pages/Center/MyOrder'
 import GroupBuy from '@/pages/Center/GroupBuy'
 
+import stote from '@/store'
+
 
 export default [
   {
@@ -43,7 +45,17 @@ export default [
     component: Login,
     meta: {
       isHideFooter: true
-    }
+    },
+    /* 功能: 只有没有登陆, 才能查看登陆界面 */
+   /*  beforeEnter: (to, from, next) => { 
+      // 如果已经登陆, 强制跳转到首页
+      const token = stote.state.user.userInfo.token
+      if (token) {
+        next('/')
+      } else { // 如果没有登陆就放行
+        next()
+      }
+    } */
   },
 
   {

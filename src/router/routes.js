@@ -65,7 +65,20 @@ export default [
   },
   {
     path: '/addcartsuccess',
-    component: AddCartSuccess
+    component: AddCartSuccess,
+    // 只有携带的skuNum以及sessionStorage中有skuInfo数据, 才能查看添加购物车成功的界面
+    beforeEnter: (to, from, next) => { 
+      // query参数skuNum
+      const skuNum = to.query.skuNum
+      // sessionStorage中有skuInfo数据
+      const skuInfo = JSON.parse(window.sessionStorage.getItem('SKU_INFO_KEY'))
+      // 只有2个条件都满足才放行
+      if (skuNum && skuInfo instanceof Object) {
+        next()
+      } else { // 如果没有, 自动跳转到购物车
+        next('/shopcart')
+      }
+    }
   },
   {
     path: '/shopcart',
@@ -74,15 +87,39 @@ export default [
 
   {
     path: '/trade',
-    component: Trade
+    component: Trade,
+    beforeEnter: (to, from, next) => { 
+      // 必须是从购物车界面过来的才行
+      if (from.path==='/shopcart') {
+        next()
+      } else { // 否则自动跳转到购物车界面
+        next('/shopcart')
+      }
+    }
   },
   {
     path: '/pay',
-    component: Pay
+    component: Pay,
+    beforeEnter: (to, from, next) => { 
+      // 必须是从trade界面过来的才行
+      if (from.path==='/trade') {
+        next()
+      } else { // 否则自动跳转到trade界面
+        next('/trade')
+      }
+    }
   },
   {
     path: '/paysuccess',
-    component: PaySuccess
+    component: PaySuccess,
+    beforeEnter: (to, from, next) => { 
+      // 必须是从pay界面过来的才行
+      if (from.path==='/pay') {
+        next()
+      } else { // 否则自动跳转到pay界面
+        next('/pay')
+      }
+    }
   },
   {
     path: '/center',

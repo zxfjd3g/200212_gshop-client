@@ -127,7 +127,7 @@ orderInfo: 包含要提交的订单相关信息的对象
 export const reqSubmitOrder = (tradeNo, orderInfo) => ajax({
   url: '/order/auth/submitOrder',
   method: 'POST',
-  // query: {tradeNo},
+  // query: {tradeNo},  // 不可以, 在前台路由跳转时用
   params: {tradeNo}, // 指定query参数
   data: orderInfo
 })

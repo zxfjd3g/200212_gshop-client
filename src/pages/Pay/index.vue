@@ -8,7 +8,7 @@
         </h4>
         <div class="paymark">
           <span class="fl">请您在提交订单<em class="orange time">4小时</em>之内完成支付，超时订单会自动取消。订单号：<em>145687</em></span>
-          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥17,654</em></span>
+          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥{{payInfo.totalFee}}</em></span>
         </div>
       </div>
       <div class="checkout-info">
@@ -65,7 +65,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <a href="javascript:" class="btn" @click="pay">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -82,8 +82,42 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import QRCode from 'qrcode'
+
   export default {
     name: 'Pay',
+
+    computed: {
+      ...mapState({
+        payInfo: state => state.order.payInfo
+      })
+    },
+
+    mounted () {
+      this.$store.dispatch('getPayInfo', this.$route.query.orderId)
+    },
+
+    methods: {
+      pay () {
+        // 生成二维码图片
+        QRCode.toDataURL(this.payInfo.codeUrl)
+          .then(url => { // 二维码图片的url
+            // console.log(url)
+            this.$alert(`<img src="${url}"/>`, '请使用微信扫码支付', { // 配置
+              dangerouslyUseHTMLString: true, // 解析内容标签显示
+              showClose: false, // 不显示右上角的关闭按钮
+              showCancelButton: true, // 显示取消按钮
+              cancelButtonText: '支付中遇到了问题', // 取消按钮的文本
+              confirmButtonText: '我已成功支付', // 确认按钮的文本
+              center: true, // 水平居中显示
+            });
+          })
+          .catch(err => {
+            alert('生成支付二维码失败')
+          })
+      }
+    }
   }
 </script>
 

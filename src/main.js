@@ -12,6 +12,7 @@ import * as API from '@/api'
 
 import '@/mock/mockServer'  // 引入加载
 import './validate' // 引入表单校验的配置模块
+import './elements'
 
 
 // 注册全局组件(所有组件都可以使用了)

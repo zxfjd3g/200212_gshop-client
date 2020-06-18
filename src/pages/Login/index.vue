@@ -89,8 +89,14 @@
         try {
           // 分发注册的异步action
           await this.$store.dispatch('login', {mobile, password})
-          // 如果成功了, 跳转到首页
-          this.$router.replace('/')
+          // 如果成功了, 
+          // 如果redirect参数有值, 跳转到对应的路由路径, 如果没有, 跳转到首页
+          const redirect = this.$route.query.redirect
+          if (redirect) {
+            this.$router.replace(redirect)
+          } else {
+            this.$router.replace('/')
+          }
         } catch (error) {
           // 如果失败了, 提示失败信息
           alert(error.message)

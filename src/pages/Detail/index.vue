@@ -434,17 +434,11 @@
         if (errorMsg) { // 失败
           alert(errorMsg)
         } else { // 成功
-
           // 将当前商品的skuInfo的json文本保存到sessionStorage中
           window.sessionStorage.setItem('SKU_INFO_KEY', JSON.stringify(this.skuInfo))
           // 跳转路由, 携带skuNum的query参数
           this.$router.push({path: '/addcartsuccess', query: {skuNum}})
         }
-
-        // 如果成功了, 跳转到成功的路由
-        
-        // 如果失败了, 提示
-        
       },
 
       /* 

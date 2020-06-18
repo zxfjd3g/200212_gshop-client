@@ -9,9 +9,13 @@
 	reqPayStatus (orderId)
 
 ## vuex
+	order.js
+	state: tradeInfo / payInfo
+	mutations:
+	actions:
 
-
-
+## 订单交易
+	动态获取交易信息显示
 
 ## 功能编码任务列表
 	功能1--实现: 动态显示订单交易

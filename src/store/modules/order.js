@@ -31,8 +31,8 @@ export default {
     /* 
     请求获取支付信息的异步action
     */
-    async getPayInfo ({commit}) {
-      const result = await reqPayInfo()
+    async getPayInfo ({commit}, orderId) {
+      const result = await reqPayInfo(orderId)
       if (result.code===200) {
         const payInfo = result.data
         commit('RECEIVE_PAY_INFO', {payInfo}) // 提交给mutation的是包含数据的对象

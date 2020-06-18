@@ -57,7 +57,8 @@
       </div>
       <div class="bbs">
         <h5>买家留言：</h5>
-        <textarea placeholder="建议留言前先与商家沟通确认" class="remarks-cont"></textarea>
+        <textarea placeholder="建议留言前先与商家沟通确认" class="remarks-cont"
+          v-model="orderComment"></textarea>
 
       </div>
       <div class="line"></div>
@@ -105,7 +106,7 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a href="javascript:" class="subBtn" @click="submitOrder">提交订单</a>
     </div>
   </div>
 </template>
@@ -117,6 +118,7 @@
     data () {
       return {
         selectedAddress: {}, // 选中的收货地址
+        orderComment: '请尽快发货', // 用户留言
       }
     },
 
@@ -137,6 +139,46 @@
 
     mounted () {
       this.$store.dispatch('getTradeInfo')
+    },
+
+    methods: {
+      async submitOrder () {
+        // 准备请求数据
+        const {orderComment} = this
+        const {tradeNo, detailArrayList} = this.tradeInfo
+        const {consignee, phoneNum, userAddress} = this.selectedAddress
+
+        const orderInfo = {
+          // 地址相关信息
+          consignee,
+          consigneeTel: phoneNum,
+          deliveryAddress: userAddress,
+
+          paymentWay: "ONLINE", // 固定为在线支付
+          orderComment, // 用户留言
+          orderDetailList:  detailArrayList  // 商品列表
+        }
+
+        console.log('---submitOrder', tradeNo)
+
+        // 发提交订单的请求
+        const result = await this.$API.reqSubmitOrder(tradeNo, orderInfo)
+
+        // 如果成功了, 跳转到支付界面(要携带orderId的query参数)
+        if (result.code===200) {
+          // 取响应数据中的订单id
+          const orderId = result.data
+          // 跳转到支付去
+          // this.$router.push('/pay?orderId=' + orderId)
+          this.$router.push({
+            path: '/pay',
+            query: {orderId}
+          })
+        } else { // 如果失败了, 提示
+          alert(result.message || '提交订单失败')
+        }
+        
+      }
     }
   }
 </script>

@@ -111,7 +111,7 @@
               cancelButtonText: '支付中遇到了问题', // 取消按钮的文本
               confirmButtonText: '我已成功支付', // 确认按钮的文本
               center: true, // 水平居中显示
-            });
+            })
           })
           .catch(err => {
             alert('生成支付二维码失败')

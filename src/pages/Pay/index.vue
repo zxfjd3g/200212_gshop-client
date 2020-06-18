@@ -137,14 +137,6 @@
               this.$API.reqPayStatus(this.$route.query.orderId)
                 .then(result => {
                   console.log('----------', result.code)
-                  /* 
-                  {
-                      "code": 205,
-                      "message": "支付中",
-                      "data": null,
-                      "ok": false
-                  }
-                  */
                 if (result.code===200) { // 支付成功
                     // 关闭对话框
                     this.$msgbox.close()

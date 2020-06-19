@@ -2,10 +2,11 @@
 element-ui的组件注册
 */
 import Vue from 'vue'
-import { Pagination, MessageBox, Message } from 'element-ui'
+import { Pagination, MessageBox, Message, Button } from 'element-ui'
 
 // 注册全局组件
 Vue.component(Pagination.name, Pagination)  // el-pagination
+Vue.component(Button.name, Button)  // el-button
 // 也可使用 Vue.use(Pagination)
 
 Vue.prototype.$msgbox = MessageBox

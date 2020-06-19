@@ -12,3 +12,4 @@
     props: ['money']
   }
 </script>
+ 

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueLazyload from 'vue-lazyload'
 import 'swiper/css/swiper.min.css' // 如果查找不是包的主模块, 必须指定具体的路径
 import App from './App.vue'
 import router from './router'
@@ -13,7 +14,12 @@ import * as API from '@/api'
 import '@/mock/mockServer'  // 引入加载
 import './validate' // 引入表单校验的配置模块
 import './elements'
+import loading from './assets/images/loading.gif'
 
+// 配置vue的插件
+Vue.use(VueLazyload, { // 内部自定义一个指令: lazy
+  loading,  // 配置loading图片
+})
 
 // 注册全局组件(所有组件都可以使用了)
 Vue.component('TypeNav', TypeNav)

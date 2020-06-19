@@ -26,13 +26,13 @@
 		如果失败, 提示
 
 ## 支付
-	动态获取支付信息: 金额 + 二维码图片url
+	动态获取支付信息: 金额 + 二维码图片url (qrcode工具包)
 	显示二维码图片: 利用element-ui
 		实现element-ui的按需引入打包
 		2种UI组件
 		  标签组件  ==> 写对应的标签产生对应的界面效果   <el-pagination>
 		  函数/对象组件  ==> 执行函数或调用对象的方法出现对应的效果
-		理解对话框:
+		理解对话框:   MessageBox() ==> MessageBox.alert() / MessageBox.confirm()
 		  this.$msgbox(): 通用的显示对话框的函数
 		  this.$alert(): $msgbox的包装函数, 专门用来显示alert框
 		  this.$confirm(): $msgbox的包装函数, 专门用来显示confirm框
@@ -63,7 +63,7 @@
 
 ## 路由组件懒加载
 	理解: 
-		当打包构建应用时，JS包会变得非常大，影响页面加载。
+		当打包构建应用时，JS包会变得非常大，影响页面加载(尤其是首页)。
 		如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问时才加载对应组件，这样就更加高效了
 	编码: 
 		Home = () => import('@/pages/Home')
@@ -77,8 +77,8 @@
 		还没有加载得到目标图片时, 先显示loading图片
 		在<img>进入可视范围才加载请求目标图片
 	编码:
-		使用vue-lazy实现
-		下载: npm install -S vue-lazy
+		使用vue-lazyload实现
+		下载: npm install -S vue-lazyload
 		import VueLazyload from 'vue-lazyload'
 		// 配置vue的插件
 		Vue.use(VueLazyload, { // 内部自定义一个指令: lazy

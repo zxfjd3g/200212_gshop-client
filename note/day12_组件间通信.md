@@ -129,7 +129,6 @@
         A组件触发action或mutation调用, 将数据保存到vuex的状态中
         B组件读取vuex中的state或getters数据, 得到最新保存的数据进行显示
 
-
 ## 编码任务进度列表
 	1--完成: 原生DOM事件与自定义事件
 	2--完成: v-model在组件上的使用和理解

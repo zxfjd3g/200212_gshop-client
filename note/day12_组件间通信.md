@@ -130,9 +130,9 @@
         B组件读取vuex中的state或getters数据, 得到最新保存的数据进行显示
 
 ## 编码任务进度列表
-	1--完成: 原生DOM事件与自定义事件
-	2--完成: v-model在组件上的使用和理解
-	3--完成: .sync的使用和理解
-	4--完成: $attrs与$listeners的使用和理解
-	5--完成: $children与$parent的使用和理解
-	6--完成: 作用域插槽(slot-scope)的使用和理解
+    1--完成: 原生DOM事件与自定义事件
+    2--完成: v-model在组件上的使用和理解
+    3--完成: .sync的使用和理解
+    4--完成: $attrs与$listeners的使用和理解
+    5--完成: $children与$parent的使用和理解
+    6--完成: 作用域插槽(slot-scope)的使用和理解
